@@ -5551,3 +5551,11 @@ ul.notifications {
     overflow: scroll;
     overflow-x: hidden;
 }
+
+.inputinvalidField {
+  color: #f44336;
+}
+
+.displayNone {
+  display: none;
+}
