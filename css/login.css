@@ -10,6 +10,7 @@
 
 .login-container {
   max-width: 500px;
+  width: 80%;
   margin: 0 auto;
 }
 
@@ -83,3 +84,13 @@
   padding-right: 25px;
   text-align: left;
 }
+
+#inputEmail:focus,
+#inputPassword:focus {
+  border: 2px solid lightslategray;
+}
+
+.invalidInput {
+  border: 2px solid #f44336;;
+}
+
