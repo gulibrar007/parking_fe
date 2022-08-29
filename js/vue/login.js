@@ -1,8 +1,21 @@
 // LOGIN ENDPOINT
 const loginEndPoint = "/login";
+// DOCUMENT BODY 
+const body = document.querySelector('body');
 
 // LOGIN VARIABLES
 let emailLogin, passwordLogin, userIcon, lockIcon;
+
+// WHEN ENTER KEY IS PRESSED 
+body.addEventListener("keypress", function(event) {
+  // IF USER PRESSES ENTER KEY ON KEYBOARD
+  if (event.key === "Enter") {
+    // CANCEL THE DEFAULT ACTION; IF NEEDED
+    event.preventDefault();
+    // TRIGGER LOGIN BUTTON 
+    document.querySelector(".login-btn").click();
+  }
+});
 
 new Vue({
   el: '#login',
@@ -77,7 +90,7 @@ new Vue({
     /*---------- USER CLICKS ON LOGIN BUTTON -------------*/
     
     /*---------- LOGIN USER & SAVE SESSION ---------------*/
-    loginUser: async function loginUser (params){
+    loginUser: async function (params){
       const result = await action(baseUrl, loginEndPoint, params)
       const res = await result.json()
       
