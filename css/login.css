@@ -50,16 +50,6 @@
   transition: none !important;
 }
 
-.spinner-container {
-  max-width: 30px;
-  margin: 0 auto;
-}
-
-.spinner {
-  display: block;
-  width: 100%;
-}
-
 .input-icon {
   position: relative;
 }
@@ -88,9 +78,5 @@
 #inputEmail:focus,
 #inputPassword:focus {
   border: 2px solid lightslategray;
-}
-
-.invalidInput {
-  border: 2px solid #f44336;;
 }
 
