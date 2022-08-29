@@ -1,7 +1,13 @@
 
 const baseUrl = "https://api.parkingmis.maverick-is.com"; // BASE URL FOR APIs
 let params = null; // NO PARAMETERS IN API CALL
-let logoutEndPoint = '/logout'; // LOGOUT ENDPOINT
+let token; //STORE TOKEN 
+
+// STATUS
+const statusObj = {
+  active: 'ACTIVE',
+  inactive: 'IN ACTIVE'
+}
 
 /*--------- COMMON API CALL----------*/
 function action (baseUrl, endPoint, params) {
@@ -18,7 +24,7 @@ function action (baseUrl, endPoint, params) {
 /*--------- COMMON API CALL----------*/ 
 
 /*--------- COMMON API CALL WITH TOKEN----------*/
-function actionAPICall (baseUrl, endPoint, params, token) {
+function actionAPICall (baseUrl, endPoint, params) {
   const res = fetch (baseUrl+endPoint, {
     method: 'POST', 
     headers: {
@@ -45,6 +51,9 @@ function actionAPICall (baseUrl, endPoint, params, token) {
     if(!vueSession) { // IF VUE SESSION DOES NOT EXIST, RE-DIRECT TO LOGIN PAGE
       window.location = 'index.html'; 
     }
+    else {
+      token = JSON.parse(sessionStorage.getItem('vue-session-key')).token; // JWT TOKEN
+    }
   }
 
 })()
@@ -56,27 +65,3 @@ function validEmail (email) {
   return re.test(email);
 }
 /*--------- EMAIL VERIFICATION --------*/
-
-/*--------- LOGOUT -------------------*/
-function logout (token) {
-  const res = fetch (baseUrl+logoutEndPoint, {
-    method: 'POST', 
-    headers: {
-      'Authorization': token,
-      'Accept': 'application/json',
-      'Content-Type': 'application/json;charset=UTF-8'
-    },
-    body: JSON.stringify(params),
-  })
-  .then(response => {
-    //response.json()
-    console.log(response)
-  })
-  .then(res => {
-    console.log(res)
-  })
-  .catch(err => {
-    console.log(err)
-  })
-}
-/*--------- LOGOUT -------------------*/
