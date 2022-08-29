@@ -39,6 +39,12 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
 
+  <!-- Axios -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- Vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+  <!-- Vue Session -->
+  <script src="https://cdn.jsdelivr.net/npm/vue-session@1.0.0/index.unpkg.js"></script>
 </head>
 
 
@@ -57,221 +63,21 @@
           </div>
           <div class="clearfix"></div>
 
-          <!-- menu prile quick info -->
-          <div class="profile">
-            <div class="profile_pic">
-              <img src="images/img.jpg" alt="..." class="img-circle profile_img">
-            </div>
-            <div class="profile_info">
-              <span>Welcome,</span>
-              <h2>John Doe</h2>
-            </div>
+          <div id="sideBarComponent">
+            <sidebarcomponents></sidebarcomponents>
           </div>
-          <!-- /menu prile quick info -->
 
-          <br />
-
-          <!-- sidebar menu -->
-          <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-
-            <div class="menu_section">
-              <h3>General</h3>
-              <ul class="nav side-menu">
-                <li><a href="index.html"><i class="fa fa-home"></i> Home </a>
-                </li>
-                <li><a><i class="fa fa-cog"></i> Inventory <span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu" style="display: none">
-                    <li><a href="other.html?data=Issue Item">Issue Item</a>
-                    </li>
-                    <li><a href="other.html?data=Add Item Stock">Add Item Stock</a>
-                    </li>
-                    <li><a href="other.html?data=Add Item Stock">Add Item</a>
-                    </li>
-                    <li><a href="other.html?data=Item Category">Item Category</a>
-                    </li>
-                    <li><a href="other.html?data=Item Store">Item Store</a>
-                    </li>
-                    <li><a href="other.html?data=Item Supplier">Item Supplier</a>
-                    </li>
-                    <li><a href="other.html?data=Disposals">Disposals</a>
-                    </li>
-                    <li><a href="other.html?data=Inventory Type">Inventory Type</a>
-                    </li>
-                    <li><a href="other.html?data=Inventory Status">Inventory Status</a>
-                    </li>
-                  </ul>
-                </li>
-                <li><a><i class="fa fa-cog"></i> Accounts <span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu" style="display: none">
-                     <li><a href="other.html?data=Income Heads">Income Heads</a>
-                    </li>
-                    <li><a href="other.html?data=Add Income">Add Income</a>
-                    </li>
-                    <li><a href="other.html?data=Expense Head">Expense Head</a>
-                    </li>
-                    <li><a href="other.html?data=Add Expense">Add Expense</a>
-                    </li>
-                  </ul>
-                </li>
-                <li><a><i class="fa fa-cog"></i> HR <span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu" style="display: none">
-                    <li><a href="other.html?data=Add Employee">Add Employee</a>
-                    </li>
-                    <li><a href="other.html?data=ALeave Types">Leave Types</a>
-                    </li>
-                    <li><a href="other.html?data=Employee Leave Request">Employee Leave Request</a>
-                    </li>
-                    <li><a href="other.html?data=Employement Type">Employement Type</a>
-                    </li>
-                    <li><a href="other.html?data=Employee Grade">Employee Grade</a>
-                    </li>
-                    <li><a href="other.html?data=Employee Shits">Employee Shits</a>
-                    </li>
-                  </ul>
-                </li>
-
-                <li><a><i class="fa fa-cog"></i> Guest Services <span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu" style="display: none">
-                     <li><a href="checkin.html">Check In</a>
-                    </li>
-                    <li><a href="checkout.html">Check Out</a>
-                    </li>
-                    <li><a href="addtional_charges.html">Additional Charges</a>
-                    </li>
-                    <li><a href="reservations.html">Reservations</a>
-                    </li>
-                  </ul>
-                </li>
-
-                <li><a><i class="fa fa-file"></i> Reports <span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu" style="display: none">
-                     <li><a href="report_daily_occupancy.html">Daily Occupancy</a>
-                    </li>
-                    <li><a href="report_hotel_revenue_occupency.html">Hotel Revenue & Occupency</a>
-                    </li>
-                    <li><a href="report_room_availability.html">Room Availability</a>
-                    </li>
-                    <li><a href="report_info_graphical.html">Infographic Reports</a>
-                    </li>
-                    <li><a href="report_history.html">History</a>
-                    </li>
-                  </ul>
-                </li>
-
-                <li><a href="currency_conversion.html"><i class="fa fa-exchange"></i> Currency Conversion </a>
-                </li>
-                <li><a href="lost_found.html"><i class="fa fa-home"></i> Lost & Found </a>
-                </li>
-
-                <li><a><i class="fa fa-cog"></i> System Setup <span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu" style="display: none">
-                    <li><a href="other.html?data=Building">Building</a>
-                    </li>
-                    <li><a href="other.html?data=Floors">Floors</a>
-                    </li>
-                    <li><a href="other.html?data=Rooms">Rooms</a>
-                    </li>
-                    <li><a href="other.html?data=Room Type">Room Type</a>
-                    </li>
-                    <li><a href="other.html?data=Room Rates">Room Rates</a>
-                    </li>
-                    <li><a href="other.html?data=Room Facilities">Room Facilities</a>
-                    </li>
-                    <li><a href="other.html?data=Department">Department</a>
-                    </li>
-                    <li><a href="other.html?data=Designation">Designation</a>
-                    </li>
-                    <li><a href="other.html?data=Dept / Agencies">Dept / Agencies</a>
-                    </li>
-                    <li><a href="other.html?data=Currency">Currency</a>
-                    </li>
-                    <li><a href="other.html?data=Exchange Rate">Exchange Rate</a>
-                    </li>
-                    <li><a href="other.html?data=Hotel Facilities">Hotel Facilities</a>
-                    </li>
-                    <li><a href="other.html?data=General Settings">General Settings</a>
-                    </li>
-
-                  </ul>
-                </li>
-
-                <li><a href="day_close.html"><i class="fa fa-exchange"></i> Daily Close </a>
-                </li>
-                <li><a href="receive_daily_cash.html"><i class="fa fa-exchange"></i> Receive Daily Cash</a>
-                </li>
-
-
-              </ul>
-            </div>
-
-
-          </div>
-          <!-- /sidebar menu -->
-
-          <!-- /menu footer buttons -->
-          <div class="sidebar-footer hidden-small">
-            <a data-toggle="tooltip" data-placement="top" title="Settings">
-              <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-            </a>
-            <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-              <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-            </a>
-            <a data-toggle="tooltip" data-placement="top" title="Lock">
-              <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-            </a>
-            <a data-toggle="tooltip" data-placement="top" title="Logout">
-              <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-            </a>
-          </div>
-          <!-- /menu footer buttons -->
         </div>
       </div>
 
       <!-- top navigation -->
-      <div class="top_nav">
+      <div class="top_nav" id="topNavComponent">
 
-        <div class="nav_menu">
-          <nav class="" role="navigation">
-            <div class="nav toggle">
-              <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-              <h4 style="    position: absolute;
-    top: 2%;
-    left: 20%;"><a href="onlineregistration.html">Online Registration</a></h4>
-            </div>
-
-
-            <ul class="nav navbar-nav navbar-right">
-              <li class="">
-                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                  <img src="images/img.jpg" alt="">Admin
-                  <span class=" fa fa-angle-down"></span>
-                </a>
-                <ul class="dropdown-menu dropdown-usermenu animated fadeInDown pull-right">
-                  <li><a href="javascript:;">  Profile</a>
-                  </li>
-                  <li>
-                    <a href="javascript:;">
-                      <span class="badge bg-red pull-right">50%</span>
-                      <span>Settings</span>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="javascript:;">Help</a>
-                  </li>
-                  <li><a href="#"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
-                  </li>
-                </ul>
-              </li>
-
-              
-
-            </ul>
-          </nav>
-        </div>
+        <topnavcomponents></topnavcomponents>
 
       </div>
       <!-- /top navigation -->
-<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
     
       <!-- Modal content-->
@@ -1286,6 +1092,10 @@
   <!-- /datepicker -->
   <!-- /footer content -->
   <script src="js/vue/common.js"></script>
+  <!-- Dynamic Sidebar -->
+  <script src="js/vue/components/sidebar.js"></script>
+  <!-- Dynamic Topnav -->
+  <script src="js/vue/components/topnav.js"></script>
 
 </body>
 
