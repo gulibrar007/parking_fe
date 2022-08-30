@@ -156,6 +156,9 @@ new Vue({
         this.countryShortCode = singleCountryInfo.short_code;
         this.countryStatus = singleCountryInfo.status;
       }
+      else {
+        toastr.error('There was an error');
+      }
 
     },
     // ON UPDATE BUTTON CLICK IN UPDATE COUNTRY MODAL
