@@ -4,6 +4,9 @@ const viewAllCountriesEndPoint = "/get_all_country";
 // VIEW ACTIVE COUNTRIES ENDPOINT
 const viewActiveCountries = "/get_active_countries";
 
+// VIEW SINGLE COUNTRY
+const viewSingleCountryEndPoint= "/get_single_country";
+
 // ADD COUNTRY ENDPOINT
 const addCountryEndPoint = "/add_country";
 
@@ -131,16 +134,28 @@ new Vue({
 
     /*---------- UPDATE COUNTRY -----------------------------*/
     // GET CURRENT VALUES OF COUNTRY
-    onClickOpenUpdateCountryModal: function (e) {
-
+    onClickOpenUpdateCountryModal: async function (e) {
+      // GET COUNTRY ID OF CLICKED ITEM
       this.countryId = e.currentTarget.getAttribute('data-country-id');
-      const countryName = e.currentTarget.getAttribute('data-country-name');
-      const countryShortCode = e.currentTarget.getAttribute('data-country-short-code');
-      const countryStatus = e.currentTarget.getAttribute('data-current-status');
 
-      this.countryName = countryName;
-      this.countryShortCode = countryShortCode;
-      this.countryStatus = countryStatus;
+      // API PARAMETERS
+      params = {
+        "country_id": this.countryId
+      };
+
+      // VIEW SINGLE COUNTRY INFORMATION
+      const result = await actionAPICall(baseUrl, viewSingleCountryEndPoint, params);
+      const res = await result.json();
+
+      // SINGLE COUNTRY DATA RETURNED SUCCESSFULLY 
+      if(res.result === 1) {
+        // STORE SINGLE COUNTRY INFORMATION IN VARIABLE 
+        const singleCountryInfo = res.data[0];
+        // ASSIGN COUNTRY INFORMATION TO RESPECTIVE INPUT FIELD
+        this.countryName = singleCountryInfo.name;
+        this.countryShortCode = singleCountryInfo.short_code;
+        this.countryStatus = singleCountryInfo.status;
+      }
 
     },
     // ON UPDATE BUTTON CLICK IN UPDATE COUNTRY MODAL
