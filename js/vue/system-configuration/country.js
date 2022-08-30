@@ -18,7 +18,6 @@ new Vue({
   data: {
     error: '',
     invalidCountryDetails: true,
-    dismissModal: '',
 
     validCountryName: false,
     countryName: '',
@@ -36,12 +35,14 @@ new Vue({
     /*---------- VIEW ALL COUNTRIES -------------------------*/
     viewAllCountries: async function () {
 
-      // SPINNER AND COUNTRY TABLE VARIABLES
+      // SPINNER AND ADD COUNTRY BTN, TABLE VARIABLES
       const spinner = document.querySelector('.horizontal-loader');
+      const addCountryBtn = document.querySelector('.add-btn');
       const table = document.querySelector('.table-data-table');
 
-      // SHOW SPINNER AND HIDE TABLE
+      // SHOW SPINNER AND HIDE ADD COUNTRY BTN, TABLE
       spinner.style.display = 'block';
+      addCountryBtn.style.display = 'none';
       table.style.display = 'none';
 
       // DESTROY THE DATA TABLE
@@ -59,8 +60,9 @@ new Vue({
       }
 
       setTimeout(function(){
-        // SHOW TABLE AND HIDE SPINNER
+        // SHOW ADD COUNTRY BTN, TABLE AND HIDE SPINNER
         spinner.style.display = 'none';
+        addCountryBtn.style.display = 'block';
         table.style.display = 'block';
         
         // DRAW THE DATA TABLE
@@ -68,6 +70,9 @@ new Vue({
 
         // SHOW ACTIVE INACTIVE STATUS FOR EACH TABLE ROW
         activeInactiveButtonInput();
+
+        // SHOW SELECTED STATUS IN UPDATE MODAL
+        activeInactiveModalSelectOptions();
 
       }, 500);
       
@@ -131,7 +136,7 @@ new Vue({
       this.countryId = e.currentTarget.getAttribute('data-country-id');
       const countryName = e.currentTarget.getAttribute('data-country-name');
       const countryShortCode = e.currentTarget.getAttribute('data-country-short-code');
-      const countryStatus = e.currentTarget.getAttribute('data-current-country-status');
+      const countryStatus = e.currentTarget.getAttribute('data-current-status');
 
       this.countryName = countryName;
       this.countryShortCode = countryShortCode;
@@ -193,7 +198,7 @@ new Vue({
       
       // GET COUNTRY ID AND STATUS
       const countryId = e.currentTarget.getAttribute('data-country-id');
-      const currentCountryStatus = e.currentTarget.getAttribute('data-current-country-status');
+      const currentCountryStatus = e.currentTarget.getAttribute('data-current-status');
       // VARIABLE TO STORE NEW UPDATED STATUS
       let newStatus;
 

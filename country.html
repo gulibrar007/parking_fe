@@ -88,7 +88,7 @@
               <div class="x_title">
                 <div class="title-flex title-content-space-between">
                   <h2>List of Countries</h2>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCountry">
+                  <button type="button" class="btn btn-primary add-btn" data-toggle="modal" data-target="#addCountry" style="display: none;">
                     Add New
                   </button>
                 </div>
@@ -132,12 +132,12 @@
                               <ul class="dropdown-menu dropdown-actions-ul dropdown-item" role="menu">
                                 
                                 <li class="dropdown-list-item">
-                                  <button type="button" class="dropdown-button" data-toggle="modal" data-target="#updateCountry" @click="onClickOpenUpdateCountryModal" :data-country-name="data.name" :data-country-id="data.id" :data-current-country-status="data.status" :data-country-short-code="data.short_code">
+                                  <button type="button" class="dropdown-button" data-toggle="modal" data-target="#updateCountry" @click="onClickOpenUpdateCountryModal" :data-country-name="data.name" :data-country-id="data.id" :data-current-status="data.status" :data-country-short-code="data.short_code">
                                     Update
                                   </button>
                                 </li>
                                 <li class="dropdown-list-item">
-                                  <button type="button" class="dropdown-button active_inactive_status_button" @click="onClickUpdateStatus" :data-country-id="data.id" :data-current-country-status="data.status">
+                                  <button type="button" class="dropdown-button active_inactive_status_button" @click="onClickUpdateStatus" :data-country-id="data.id" :data-current-status="data.status">
                                   </button>
                                 </li>
                               </ul>
@@ -156,9 +156,6 @@
         
               </div>
             </div>
-        
-        
-        
         
           </div>
           <!-- country data-table -->
@@ -214,7 +211,7 @@
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @click="onClickAddBtn" :data-dismiss="dismissModal">Add</button>
+                <button type="button" class="btn btn-primary" @click="onClickAddBtn">Add</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
@@ -260,18 +257,15 @@
                   <!-- Country Status -->
                   <div class="form-group">
                     <label for="country_status">Status: </label>
-                    <select class="form-control" v-model="countryStatus">
-                      <option value="" disabled>Select Country</option>
-                      <option value="ACTIVE">ACTIVE</option>
-                      <option value="IN ACTIVE">IN ACTIVE</option>
-                    </select>
+                    <!-- Options are inserted when country table is loaded -->
+                    <select class="form-control select-status" v-model="countryStatus"></select>
                   </div>
                   <!-- Country Status -->
 
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @click="onClickUpdateBtn" :data-dismiss="dismissModal">Update</button>
+                <button type="button" class="btn btn-primary" @click="onClickUpdateBtn">Update</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
