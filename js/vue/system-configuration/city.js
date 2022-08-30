@@ -46,12 +46,14 @@ new Vue({
     /*---------- VIEW ALL CITIES -------------------------*/
     viewAllCities: async function () {
 
-      // SPINNER AND CITY TABLE VARIABLES
+      // SPINNER, ADD CITY BTN AND CITY TABLE VARIABLES
       const spinner = document.querySelector('.horizontal-loader');
+      const addCityBtn = document.querySelector('.add-btn');
       const table = document.querySelector('.table-data-table');
 
-      // SHOW SPINNER AND HIDE TABLE
+      // SHOW SPINNER AND HIDE ADD CITY BTN, TABLE
       spinner.style.display = 'block';
+      addCityBtn.style.display = 'none';
       table.style.display = 'none';
 
       // DESTROY THE DATA TABLE
@@ -69,8 +71,9 @@ new Vue({
       }
 
       setTimeout(function(){
-        // SHOW TABLE AND HIDE SPINNER
+        // SHOW ADD CITY BTN, TABLE AND HIDE SPINNER
         spinner.style.display = 'none';
+        addCityBtn.style.display = 'block';
         table.style.display = 'block';
         
         // DRAW THE DATA TABLE
@@ -78,6 +81,9 @@ new Vue({
 
         // SHOW ACTIVE INACTIVE STATUS FOR EACH TABLE ROW
         activeInactiveButtonInput();
+
+        // SHOW SELECTED STATUS IN UPDATE MODAL
+        activeInactiveModalSelectOptions();
 
       }, 500);
       
@@ -113,7 +119,7 @@ new Vue({
         this.invalidCityDetails = false;
         this.emptyCityShortCode();
       }
-      else if(this.selectedCountry === ''){
+      else if(this.selectedCountry === ''){ // EMPTY COUNTRY
         this.validCountry = true;
         this.invalidCityDetails = false;
         this.emptyCountrySelected();
@@ -154,6 +160,121 @@ new Vue({
       }
     },
     /*---------- ADD CITY --------------------------------*/
+
+    /*---------- UPDATE CITY -----------------------------*/
+    // GET CURRENT VALUES OF CITY
+    onClickOpenUpdateCityModal: function (e) {
+
+      this.cityId = e.currentTarget.getAttribute('data-city-id');
+      const cityName = e.currentTarget.getAttribute('data-city-name');
+      const cityShortCode = e.currentTarget.getAttribute('data-current-status');
+      const cityStatus = e.currentTarget.getAttribute('data-current-city-status');
+      const selectedCityCountryId = e.currentTarget.getAttribute('data-country-id');
+      
+      this.cityName = cityName;
+      this.cityShortCode = cityShortCode;
+      this.cityStatus = cityStatus;
+      this.selectedCountry = selectedCityCountryId;
+
+    },
+    // ON UPDATE BUTTON CLICK IN UPDATE CITY MODAL
+    onClickUpdateBtn: function () {
+      if(this.cityName === '') { // EMPTY CITY NAME
+        this.validCityName = true;
+        this.invalidCityDetails = false;
+        this.emptyCityName();
+      }  
+      else if(this.cityShortCode === '') { // EMPTY CITY SHORT CODE
+        this.validCityShortCode = true;
+        this.invalidCityDetails = false;
+        this.emptyCityShortCode();
+      }
+      else if(this.selectedCountry === '') { // EMPTY COUNTRY SELECTED
+        this.validCountry = true;
+        this.invalidCityDetails = false;
+        this.emptyCountrySelected();
+      }
+      else { // UPDATE CITY
+        params = {
+          "name": this.cityName,
+          "short_code": this.cityShortCode,
+          "city_id": this.cityId,
+          "country_id": this.selectedCountry,
+          "status": this.cityStatus 
+        }
+
+        this.updateCity(params);
+      }
+    },
+    updateCity: async function (params) {
+      const result = await actionAPICall(baseUrl, updateCityEndPoint, params);
+      const res = await result.json();
+      
+      // UPDATE CITY SUCCESSFULLY
+      if(res.result === 'success') {
+        // CLOSE MODAL
+        closeModal('updateCity');
+        
+        toastr.success('City updated successfully');
+        this.viewAllCities(); // RELOAD ALL CITIES VIEW
+
+        // RESET INPUT FIELDS
+        this.cityName = '';
+        this.cityShortCode = '';
+        this.cityId = '';
+        this.cityStatus = statusObj.active;
+      }
+      else {
+        // CLOSE MODAL
+        closeModal('updateCity'); 
+        // ERROR MESSAGE
+        toastr.error('There was an error!');
+      }
+    },
+    /*---------- UPDATE CITY -----------------------------*/
+
+    /*---------- UPDATE CITY STATUS ----------------------*/
+    onClickUpdateStatus: function (e) {
+      
+      // GET CITY ID AND STATUS
+      const cityId = e.currentTarget.getAttribute('data-city-id');
+      const currentCityStatus = e.currentTarget.getAttribute('data-current-status');
+      // VARIABLE TO STORE NEW UPDATED STATUS
+      let newStatus;
+
+      // CURRENT STATUS IS ACTIVE
+      if(currentCityStatus === statusObj.active) {
+        newStatus = statusObj.inactive; // MAKE THE NEW STATUS INACTIVE
+      }
+      // CURRENT STATIS IS INACTIVE
+      else if(currentCityStatus === statusObj.inactive) {
+        newStatus = statusObj.active; // MAKE THE NEW STATUS ACTIVE
+      }
+
+      // UPDATE STATUS
+      params = {
+        "status": newStatus,
+        "city_id": cityId
+      }
+      
+      this.updateCityStatus(params);
+    },
+    // UPDATE CITY STATUS
+    updateCityStatus: async function (params) {
+      // UPDATE CITY STATUS ON SERVER
+      const result = await actionAPICall(baseUrl, updateCityStatusEndPoint, params);
+      const res = await result.json();
+      
+      // STATUS UPDATED SUCCESSFULLY
+      if(res.result === 'success') {
+        toastr.success('Status updated successfully');
+        this.viewAllCities();
+      }
+      else {
+        toastr.error('There was an error!');
+      }
+    },
+    /*---------- UPDATE CITY STATUS ----------------------*/
 
     /*---------- EMPTY/INVALID FIELD MESSAGE ---------------------*/
     emptyCityName: function () {

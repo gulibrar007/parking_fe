@@ -88,7 +88,7 @@
               <div class="x_title">
                 <div class="title-flex title-content-space-between">
                   <h2>List of Cities</h2>
-                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCity">
+                  <button type="button" class="btn btn-primary add-btn" data-toggle="modal" data-target="#addCity" style="display: none;">
                     Add New
                   </button>
                 </div>
@@ -132,12 +132,12 @@
                               <ul class="dropdown-menu dropdown-actions-ul dropdown-item" role="menu">
                                 
                                 <li class="dropdown-list-item">
-                                  <button type="button" class="dropdown-button" data-toggle="modal" data-target="#updateCountry"  :data-country-name="data.name" :data-country-id="data.id" :data-current-country-status="data.status" :data-country-short-code="data.short_code">
+                                  <button type="button" class="dropdown-button" data-toggle="modal" data-target="#updateCity" @click="onClickOpenUpdateCityModal" :data-city-name="data.name" :data-city-id="data.id" :data-current-city-status="data.status" :data-current-status="data.short_code" :data-country-id="data.country_id">
                                     Update
                                   </button>
                                 </li>
                                 <li class="dropdown-list-item">
-                                  <button type="button" class="dropdown-button active_inactive_status_button" :data-country-id="data.id" :data-current-country-status="data.status">
+                                  <button type="button" class="dropdown-button active_inactive_status_button" @click="onClickUpdateStatus" :data-city-id="data.id" :data-current-status="data.status">
                                   </button>
                                 </li>
                               </ul>
@@ -232,6 +232,69 @@
           </div>
         </div>
         <!-- add city -->
+        <!-- update city -->
+        <div class="modal fade" id="updateCity" role="dialog">
+          <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update City</h4>
+              </div>
+              <div class="modal-body">
+                <!-- Error message -->
+                <p style="text-align: center;" :class="{'displayNone':invalidCityDetails}" id="dangerAlert"
+                  class="alert alert-danger text-color-white" v-html="error"></p>
+                <!-- Error message -->
+                <form>
+                  <!-- City Name -->
+                  <div class="form-group">
+                    <label for="city_name" :class="{inputinvalidField: validCityName}">City Name: <span
+                        class="modal-required-input">*</span></label>
+                    <input type="text" id="city_name" class="form-control" placeholder="Berlin"
+                      :class="{invalidInput: validCityName}" v-model="cityName" v-on:keyup="keyUpCityName">
+                  </div>
+                  <!-- City Name -->
+        
+                  <!-- City Short Code -->
+                  <div class="form-group">
+                    <label for="city_short_code" :class="{inputinvalidField: validCityShortCode}">Short Code: <span
+                        class="modal-required-input">*</span></label>
+                    <input type="text" id="city_short_code" class="form-control" placeholder="BE"
+                      :class="{invalidInput: validCityShortCode}" v-model="cityShortCode" v-on:keyup="keyUpCityShortCode">
+                  </div>
+                  <!-- City Short Code -->
+        
+                  <!-- Country -->
+                  <div class="form-group">
+                    <label for="country" :class="{inputinvalidField: validCountry}">Country: <span class="modal-required-input">*</span>
+                    </label>
+                    <select class="form-control" v-model="selectedCountry" :class="{invalidInput: validCountry}"
+                      @focus="onFocusSelectCountry">
+                      <option value="" disabled selected>Select Country</option>
+                      <option v-for="data in countryList" :value="data.id">{{ data.name }}</option>
+                    </select>
+                  </div>
+                  <!-- Country -->
+                  <!-- City Status -->
+                  <div class="form-group">
+                    <label for="city_status" :class="{inputinvalidField: validCityStatus}">Status:</label>
+                    <!-- Options are inserted when city table is loaded -->
+                    <select class="form-control select-status" v-model="cityStatus"></select>
+                  </div>
+                  <!-- City Status -->
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" @click="onClickUpdateBtn">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+        <!-- update city -->
         <!-- modals -->
       </div>
 
@@ -247,20 +310,8 @@
   </div>
 
   <script src="js/assets/bootstrap.min.js"></script>
-
-  <!-- gauge js -->
-  <!--<script type="text/javascript" src="js/assets/gauge/gauge.min.js"></script>
-  <script type="text/javascript" src="js/assets/gauge/gauge_demo.js"></script>-->
-  <!-- bootstrap progress js -->
-  <!--<script src="js/assets/progressbar/bootstrap-progressbar.min.js"></script>-->
+  
   <script src="js/assets/nicescroll/jquery.nicescroll.min.js"></script>
-  <!-- icheck -->
-  <!--<script src="js/assets/icheck/icheck.min.js"></script>-->
-  <!-- daterangepicker -->
-  <!--<script type="text/javascript" src="js/assets/moment/moment.min.js"></script>
-  <script type="text/javascript" src="js/assets/datepicker/daterangepicker.js"></script>-->
-  <!-- chart js -->
-  <!--<script src="js/assets/chartjs/chart.min.js"></script>-->
 
   <script src="js/assets/custom.js"></script>
 
