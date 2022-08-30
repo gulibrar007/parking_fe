@@ -2,13 +2,16 @@
 const viewAllCitiesEndPoint = "/get_all_cities";
 
 // VIEW ACTIVE CITY ENDPOINT
-const viewActiveCities = "/get_active_cities";
+const viewActiveCitiesEndPoint = "/get_active_cities";
 
 // VIEW ALL ACTIVE COUNTRIES
-const viewAllActiveCountries = "/get_active_countries";
+const viewAllActiveCountriesEndPoint = "/get_active_countries";
 
 // GET ALL CITIES OF COUNTRY
-const getAllCitiesOfCountry = "/get_all_cities_of_country";
+const getAllCitiesOfCountryEndPoint = "/get_all_cities_of_country";
+
+// GET SINGLE CITY DETAILS
+const getSingleCityDetailsEndPoint = "/get_single_city";
 
 // ADD CITY ENDPOINT
 const addCityEndPoint = "/add_city";
@@ -96,7 +99,7 @@ new Vue({
       // PARAMETERS TO VIEW ALL ACTIVE COUNTRIES
       params = { }; 
       // GET ALL ACTIVE COUNTRIES FROM API CALL
-      const result = await actionAPICall(baseUrl, viewAllActiveCountries, params);
+      const result = await actionAPICall(baseUrl, viewAllActiveCountriesEndPoint, params);
       const res = await result.json();
       
       // IF ALL COUNTRIES ARE RETURNED SUCCESSFULLY
@@ -163,18 +166,32 @@ new Vue({
 
     /*---------- UPDATE CITY -----------------------------*/
     // GET CURRENT VALUES OF CITY
-    onClickOpenUpdateCityModal: function (e) {
-
+    onClickOpenUpdateCityModal: async function (e) {
+      // GET CITY ID OF CLICKED ITEM
       this.cityId = e.currentTarget.getAttribute('data-city-id');
-      const cityName = e.currentTarget.getAttribute('data-city-name');
-      const cityShortCode = e.currentTarget.getAttribute('data-current-status');
-      const cityStatus = e.currentTarget.getAttribute('data-current-city-status');
-      const selectedCityCountryId = e.currentTarget.getAttribute('data-country-id');
       
-      this.cityName = cityName;
-      this.cityShortCode = cityShortCode;
-      this.cityStatus = cityStatus;
-      this.selectedCountry = selectedCityCountryId;
+      // API PARAMETERS
+      params = {
+        "city_id": this.cityId
+      };
+
+      // VIEW SINGLE CITY INFORMATION
+      const result = await actionAPICall(baseUrl, getSingleCityDetailsEndPoint, params);
+      const res = await result.json();
+
+      // SINGLE CITY DATA RETURNED SUCCESSFULLY 
+      if(res.result === 1) {
+        // STORE SINGLE CITY INFORMATION IN VARIABLE 
+        const singleCityInfo = res.data[0];
+        // ASSIGN CITY INFORMATION TO RESPECTIVE INPUT FIELD
+        this.cityName = singleCityInfo.name;
+        this.cityShortCode = singleCityInfo.short_code;
+        this.cityStatus = singleCityInfo.status;
+        this.selectedCountry = singleCityInfo.country_id;
+      }
+      else {
+        toastr.error('There was an error');
+      }
 
     },
     // ON UPDATE BUTTON CLICK IN UPDATE CITY MODAL
