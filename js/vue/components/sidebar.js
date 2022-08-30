@@ -25,111 +25,23 @@ Vue.component('sidebarcomponents',{
                 </li>
                 <li><a><i class="fa fa-cog"></i> System Configuration <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
-                    <li><a href="city.html">City</a>
+                    <li>
+                      <a href="city.html">City</a>
                     </li>
-                    <li><a href="country.html">Country</a>
+                    <li>
+                      <a href="country.html">Country</a>
                     </li>
-                  </ul>
-                </li>
-                <li><a><i class="fa fa-cog"></i> Accounts <span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu" style="display: none">
-                     <li><a href="other.html?data=Income Heads">Income Heads</a>
+                    <li>
+                      <a href="building.html">Building</a>
                     </li>
-                    <li><a href="other.html?data=Add Income">Add Income</a>
+                    <li>
+                      <a href="floor.html">Floors</a>
                     </li>
-                    <li><a href="other.html?data=Expense Head">Expense Head</a>
-                    </li>
-                    <li><a href="other.html?data=Add Expense">Add Expense</a>
-                    </li>
-                  </ul>
-                </li>
-                <li><a><i class="fa fa-cog"></i> HR <span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu" style="display: none">
-                    <li><a href="other.html?data=Add Employee">Add Employee</a>
-                    </li>
-                    <li><a href="other.html?data=ALeave Types">Leave Types</a>
-                    </li>
-                    <li><a href="other.html?data=Employee Leave Request">Employee Leave Request</a>
-                    </li>
-                    <li><a href="other.html?data=Employement Type">Employement Type</a>
-                    </li>
-                    <li><a href="other.html?data=Employee Grade">Employee Grade</a>
-                    </li>
-                    <li><a href="other.html?data=Employee Shits">Employee Shits</a>
+                    <li>
+                      <a href="role.html">Roles</a>
                     </li>
                   </ul>
                 </li>
-
-                <li><a><i class="fa fa-cog"></i> Guest Services <span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu" style="display: none">
-                     <li><a href="checkin.html">Check In</a>
-                    </li>
-                    <li><a href="checkout.html">Check Out</a>
-                    </li>
-                    <li><a href="addtional_charges.html">Additional Charges</a>
-                    </li>
-                    <li><a href="reservations.html">Reservations</a>
-                    </li>
-                  </ul>
-                </li>
-
-                <li><a><i class="fa fa-file"></i> Reports <span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu" style="display: none">
-                     <li><a href="report_daily_occupancy.html">Daily Occupancy</a>
-                    </li>
-                    <li><a href="report_hotel_revenue_occupency.html">Hotel Revenue & Occupency</a>
-                    </li>
-                    <li><a href="report_room_availability.html">Room Availability</a>
-                    </li>
-                    <li><a href="report_info_graphical.html">Infographic Reports</a>
-                    </li>
-                    <li><a href="report_history.html">History</a>
-                    </li>
-                  </ul>
-                </li>
-
-                <li><a href="currency_conversion.html"><i class="fa fa-exchange"></i> Currency Conversion </a>
-                </li>
-                <li><a href="lost_found.html"><i class="fa fa-home"></i> Lost & Found </a>
-                </li>
-
-                <li><a><i class="fa fa-cog"></i> System Setup <span class="fa fa-chevron-down"></span></a>
-                  <ul class="nav child_menu" style="display: none">
-                    <li><a href="other.html?data=Building">Building</a>
-                    </li>
-                    <li><a href="other.html?data=Floors">Floors</a>
-                    </li>
-                    <li><a href="other.html?data=Rooms">Rooms</a>
-                    </li>
-                    <li><a href="other.html?data=Room Type">Room Type</a>
-                    </li>
-                    <li><a href="other.html?data=Room Rates">Room Rates</a>
-                    </li>
-                    <li><a href="other.html?data=Room Facilities">Room Facilities</a>
-                    </li>
-                    <li><a href="other.html?data=Department">Department</a>
-                    </li>
-                    <li><a href="other.html?data=Designation">Designation</a>
-                    </li>
-                    <li><a href="other.html?data=Dept / Agencies">Dept / Agencies</a>
-                    </li>
-                    <li><a href="other.html?data=Currency">Currency</a>
-                    </li>
-                    <li><a href="other.html?data=Exchange Rate">Exchange Rate</a>
-                    </li>
-                    <li><a href="other.html?data=Hotel Facilities">Hotel Facilities</a>
-                    </li>
-                    <li><a href="other.html?data=General Settings">General Settings</a>
-                    </li>
-
-                  </ul>
-                </li>
-
-                <li><a href="day_close.html"><i class="fa fa-exchange"></i> Daily Close </a>
-                </li>
-                <li><a href="receive_daily_cash.html"><i class="fa fa-exchange"></i> Receive Daily Cash</a>
-                </li>
-
 
               </ul>
             </div>
