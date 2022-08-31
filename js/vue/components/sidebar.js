@@ -21,7 +21,7 @@ Vue.component('sidebarcomponents',{
             <div class="menu_section">
               <h3>General</h3>
               <ul class="nav side-menu">
-                <li><a href="index.html"><i class="fa fa-home"></i> Home </a>
+                <li><a href="dashboard.html"><i class="fa fa-home"></i> Dashboard </a>
                 </li>
                 <li><a><i class="fa fa-cog"></i> System Configuration <span class="fa fa-chevron-down"></span></a>
                   <ul class="nav child_menu" style="display: none">
