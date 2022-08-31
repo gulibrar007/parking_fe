@@ -78,7 +78,7 @@
       </div>
       <!-- /top navigation -->
 
-      <div id="city">
+      <div id="cityVueApp">
         <!-- page content -->
         <div class="right_col" role="main">
         
@@ -132,7 +132,7 @@
                               <ul class="dropdown-menu dropdown-actions-ul dropdown-item" role="menu">
                                 
                                 <li class="dropdown-list-item">
-                                  <button type="button" class="dropdown-button" data-toggle="modal" data-target="#updateCity" @click="onClickOpenUpdateCityModal" :data-city-name="data.name" :data-city-id="data.id" :data-current-city-status="data.status" :data-current-status="data.short_code" :data-country-id="data.country_id">
+                                  <button type="button" class="dropdown-button" data-toggle="modal" data-target="#updateCity" @click="onClickOpenUpdateCityModal" :data-city-id="data.id">
                                     Update
                                   </button>
                                 </li>
@@ -156,9 +156,6 @@
         
               </div>
             </div>
-        
-        
-        
         
           </div>
           <!-- country data-table -->
@@ -224,7 +221,7 @@
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @click="onClickAddBtn">Add</button>
+                <button type="button" class="btn btn-primary add-city-modal-btn" @click="onClickAddBtn">Add</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
@@ -287,7 +284,7 @@
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @click="onClickUpdateBtn">Update</button>
+                <button type="button" class="btn btn-primary update-city-modal-btn" @click="onClickUpdateBtn">Update</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>

@@ -23,7 +23,7 @@ const updateCityEndPoint = "/update_city";
 const updateCityStatusEndPoint = "/update_city_status";
 
 new Vue({
-  el: '#city',
+  el: '#cityVueApp',
   data: {
     error: '',
     invalidCityDetails: true,
@@ -41,7 +41,7 @@ new Vue({
     cityList: [],
     countryList: [],
   },
-  mounted: function () {
+  mounted: function () { // WHEN VUE COMPONENT IS ADDED TO DOM, THIS HOOK IS CALLED
     this.viewAllCities();
     this.viewAllCountries();
   },
@@ -89,7 +89,6 @@ new Vue({
         activeInactiveModalSelectOptions();
 
       }, 500);
-      
 
     },
     /*---------- VIEW ALL CITIES -------------------------*/
@@ -127,18 +126,25 @@ new Vue({
         this.invalidCityDetails = false;
         this.emptyCountrySelected();
       }
-      else { // ADD CITY
+      else { 
+        // API PARAMETERS
         params = {
           "name": this.cityName,
           "short_code": this.cityShortCode,
           "country_id": this.selectedCountry
         }
         
+        // ADD CITY
         this.addCity(params);
       }
     },
     // ADD CITY
     addCity: async function (params) {
+      const addCityModalBtn = document.querySelector('.add-city-modal-btn');
+      
+      // DISABLE ADD CITY BUTTON
+      addCityModalBtn.disabled = true;
+
       // ADD CITY ON SERVER
       const result = await actionAPICall(baseUrl, addCityEndPoint, params);
       const res = await result.json();
@@ -147,6 +153,9 @@ new Vue({
       if(res.result === 'success') {
         // CLOSE MODAL
         closeModal('addCity');
+
+        // ENABLE ADD CITY BUTTON
+        addCityModalBtn.disabled = false;
         
         toastr.success('City added successfully');
         this.viewAllCities(); // RELOAD ALL CITIES VIEW
@@ -158,6 +167,10 @@ new Vue({
       else {
         // CLOSE MODAL
         closeModal('addCity');
+
+        // ENABLE ADD CITY BUTTON
+        addCityModalBtn.disabled = false;
+
         // ERROR MESSAGE
         toastr.error('There was an error!');
       }
@@ -211,7 +224,8 @@ new Vue({
         this.invalidCityDetails = false;
         this.emptyCountrySelected();
       }
-      else { // UPDATE CITY
+      else { 
+        // API PARAMETERS
         params = {
           "name": this.cityName,
           "short_code": this.cityShortCode,
@@ -220,10 +234,17 @@ new Vue({
           "status": this.cityStatus 
         }
 
+        // UPDATE CITY
         this.updateCity(params);
       }
     },
     updateCity: async function (params) {
+      const updateCityModalBtn = document.querySelector('.update-city-modal-btn');
+      
+      // DISABLE UPDATE CITY BUTTON
+      updateCityModalBtn.disabled = true;
+
+      // UPDATE CITY ON SERVER
       const result = await actionAPICall(baseUrl, updateCityEndPoint, params);
       const res = await result.json();
       
@@ -231,6 +252,9 @@ new Vue({
       if(res.result === 'success') {
         // CLOSE MODAL
         closeModal('updateCity');
+
+        // ENABLE UPDATE CITY BUTTON
+        updateCityModalBtn.disabled = false;
         
         toastr.success('City updated successfully');
         this.viewAllCities(); // RELOAD ALL CITIES VIEW
@@ -244,6 +268,10 @@ new Vue({
       else {
         // CLOSE MODAL
         closeModal('updateCity'); 
+
+        // ENABLE UPDATE CITY BUTTON
+        updateCityModalBtn.disabled = false;
+
         // ERROR MESSAGE
         toastr.error('There was an error!');
       }
