@@ -296,9 +296,9 @@ new Vue({
       // UPDATE STATUS
       this.updateFloorStatus(params);
     },
-    // UPDATE BUILDING STATUS
+    // UPDATE FLOOR STATUS
     updateFloorStatus: async function (params) {
-      // UPDATE BUILDING STATUS ON SERVER
+      // UPDATE FLOOR STATUS ON SERVER
       const result = await actionAPICall(baseUrl, updateFloorStatusEndPoint, params);
       const res = await result.json();
       
@@ -311,7 +311,7 @@ new Vue({
         toastr.error('There was an error!');
       }
     },
-    /*---------- UPDATE BUILDING STATUS ----------------------*/
+    /*---------- UPDATE FLOOR STATUS ----------------------*/
 
     /*---------- EMPTY/INVALID FIELD MESSAGE ---------------------*/
     emptyFloorNumber: function () {
