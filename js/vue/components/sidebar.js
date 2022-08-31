@@ -38,7 +38,7 @@ Vue.component('sidebarcomponents',{
                       <a href="floor.html">Floors</a>
                     </li>
                     <li>
-                      <a href="role.html">Roles</a>
+                      <a href="roles.html">Roles</a>
                     </li>
                   </ul>
                 </li>
