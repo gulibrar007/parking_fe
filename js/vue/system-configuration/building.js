@@ -17,7 +17,7 @@ const updateBuildingEndPoint = "/update_building";
 const updateBuildingStatusEndPoint = "/update_building_status";
 
 new Vue({
-  el: '#building',
+  el: '#buildingVueApp',
   data: {
     error: '',
     invalidBuildingDetails: true,
@@ -31,7 +31,7 @@ new Vue({
 
     buildingList: [],
   },
-  mounted: function () {
+  mounted: function () { // WHEN VUE COMPONENT IS ADDED TO DOM, THIS HOOK IS CALLED
     this.viewAllBuildings();
   },
   methods: {
@@ -78,7 +78,6 @@ new Vue({
         activeInactiveModalSelectOptions();
 
       }, 500);
-      
 
     },
     /*---------- VIEW ALL BUILDINGS -------------------------*/
@@ -91,17 +90,23 @@ new Vue({
         this.invalidBuildingDetails = false;
         this.emptyBuildingName();
       }
-      else { // ADD BUILDING
+      else { 
         // API PARAMETERS
         params = {
           "name": this.buildingName
         }
 
+        // ADD BUILDING
         this.addBuilding(params);
       }
     },
     // ADD BUILDING
     addBuilding: async function (params) {
+      const addBuildingModalBtn = document.querySelector('.add-building-modal-btn');
+      
+      // DISABLE ADD BUILDING BUTTON
+      addBuildingModalBtn.disabled = true;
+
       // ADD BUILDING ON SERVER
       const result = await actionAPICall(baseUrl, addBuildingEndPoint, params);
       const res = await result.json();
@@ -110,6 +115,9 @@ new Vue({
       if(res.result === 'success') {
         // CLOSE MODAL
         closeModal('addBuilding');
+
+        // ENABLE ADD BUILDING BUTTON
+        addBuildingModalBtn.disabled = false;
         
         toastr.success('Building added successfully');
         this.viewAllBuildings(); // RELOAD ALL BUILDINGS VIEW
@@ -120,13 +128,17 @@ new Vue({
       else {
         // CLOSE MODAL
         closeModal('addBuilding');
+
+        // ENABLE ADD BUILDING BUTTON
+        addBuildingModalBtn.disabled = false;
+
         // ERROR MESSAGE
         toastr.error('There was an error!');
       }
     },
     /*---------- ADD BUILDINGS --------------------------------*/
 
-    /*---------- UPDATE building -----------------------------*/
+    /*---------- UPDATE BUILDING -----------------------------*/
     // GET CURRENT VALUES OF building
     onClickOpenUpdatebuildingModal: async function (e) {
       // GET building ID OF CLICKED ITEM
@@ -160,7 +172,7 @@ new Vue({
       this.buildingName = e.currentTarget.getAttribute('data-name');
       this.buildingStatus = e.currentTarget.getAttribute('data-status');
     },
-    // ON UPDATE BUTTON CLICK IN UPDATE building MODAL
+    // ON UPDATE BUTTON CLICK IN UPDATE BUILDING MODAL
     onClickUpdateBtn: function () {
       if(this.buildingName === '') { // EMPTY BUILDING NAME
         this.validBuildingName = true;
@@ -180,6 +192,12 @@ new Vue({
       }
     },
     updateBuilding: async function (params) {
+      const updateBuildingModalBtn = document.querySelector('.update-building-modal-btn');
+      
+      // DISABLE UPDATE BUILDING BUTTON
+      updateBuildingModalBtn.disabled = true;
+
+      // UPDATE BUILDING ON SERVER
       const result = await actionAPICall(baseUrl, updateBuildingEndPoint, params);
       const res = await result.json();
       
@@ -187,6 +205,9 @@ new Vue({
       if(res.result === 'success') {
         // CLOSE MODAL
         closeModal('updateBuilding');
+
+        // ENABLE UPDATE BUILDING BUTTON
+        updateBuildingModalBtn.disabled = false;
         
         toastr.success('Building updated successfully');
         this.viewAllBuildings(); // RELOAD ALL BUILDINGS VIEW
@@ -198,11 +219,15 @@ new Vue({
       else {
         // CLOSE MODAL
         closeModal('updateBuilding'); 
+
+        // ENABLE UPDATE BUILDING BUTTON
+        updateBuildingModalBtn.disabled = false;
+
         // ERROR MESSAGE
         toastr.error('There was an error!');
       }
     },
-    /*---------- UPDATE building -----------------------------*/
+    /*---------- UPDATE BUILDING -----------------------------*/
 
     /*---------- UPDATE BUILDING STATUS ----------------------*/
     onClickUpdateStatus: function (e) {

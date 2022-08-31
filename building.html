@@ -78,7 +78,7 @@
       </div>
       <!-- /top navigation -->
 
-      <div id="building">
+      <div id="buildingVueApp">
         <!-- page content -->
         <div class="right_col" role="main">
 
@@ -189,6 +189,7 @@
                   class="alert alert-danger text-color-white" v-html="error"></p>
                 <!-- Error message -->
                 <form>
+                  
                   <!-- Building Name -->
                   <div class="form-group">
                     <label for="building_name" :class="{inputinvalidField: validBuildingName}">Building Name: <span
@@ -197,10 +198,11 @@
                       :class="{invalidInput: validBuildingName}" v-model="buildingName" v-on:keyup="keyUpBuildingName">
                   </div>
                   <!-- Building Name -->
+                
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @click="onClickAddBtn">Add</button>
+                <button type="button" class="btn btn-primary add-building-modal-btn" @click="onClickAddBtn">Add</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
@@ -224,6 +226,7 @@
                   class="alert alert-danger text-color-white" v-html="error"></p>
                 <!-- Error message -->
                 <form>
+                
                   <!-- Building Name -->
                   <div class="form-group">
                     <label for="building_name" :class="{inputinvalidField: validBuildingName}">Building Name: <span
@@ -232,6 +235,7 @@
                       :class="{invalidInput: validBuildingName}" v-model="buildingName" v-on:keyup="keyUpBuildingName">
                   </div>
                   <!-- Building Name -->
+
                   <!-- Status -->
                   <div class="form-group">
                     <label for="building_status">Status: </label>
@@ -239,10 +243,11 @@
                     <select class="form-control select-status" v-model="buildingStatus"></select>
                   </div>
                   <!-- Status -->
+                
                 </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" @click="onClickUpdateBtn">Update</button>
+                <button type="button" class="btn btn-primary update-building-modal-btn" @click="onClickUpdateBtn">Update</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
               </div>
             </div>
