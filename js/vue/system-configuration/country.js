@@ -17,7 +17,7 @@ const updateCountryEndPoint = "/update_country";
 const updateCountryStatusEndPoint = "/update_country_status";
 
 new Vue({
-  el: '#country',
+  el: '#countryVueApp',
   data: {
     error: '',
     invalidCountryDetails: true,
@@ -31,7 +31,7 @@ new Vue({
 
     countryList: [],
   },
-  mounted: function () {
+  mounted: function () { // WHEN VUE COMPONENT IS ADDED TO DOM, THIS HOOK IS CALLED
     this.viewAllCountries();
   },
   methods: {
@@ -78,7 +78,6 @@ new Vue({
         activeInactiveModalSelectOptions();
 
       }, 500);
-      
 
     },
     /*---------- VIEW ALL COUNTRIES -------------------------*/
@@ -96,17 +95,24 @@ new Vue({
         this.invalidCountryDetails = false;
         this.emptyCountryShortCode();
       }
-      else { // ADD COUNTRY
+      else {
+        // API PARAMETERS
         params = {
           "name": this.countryName,
           "short_code": this.countryShortCode
         }
 
+        // ADD COUNTRY
         this.addCountry(params);
       }
     },
     // ADD COUNTRY
     addCountry: async function (params) {
+      const addCountryModalBtn = document.querySelector('.add-country-modal-btn');
+      
+      // DISABLE ADD COUNTRY BUTTON
+      addCountryModalBtn.disabled = true;
+
       // ADD COUNTRY ON SERVER
       const result = await actionAPICall(baseUrl, addCountryEndPoint, params);
       const res = await result.json();
@@ -115,6 +121,9 @@ new Vue({
       if(res.result === 'success') {
         // CLOSE MODAL
         closeModal('addCountry');
+
+        // ENABLE ADD COUNTRY BUTTON
+        addCountryModalBtn.disabled = false;
         
         toastr.success('Country added successfully');
         this.viewAllCountries(); // RELOAD ALL COUNTRIES VIEW
@@ -126,6 +135,10 @@ new Vue({
       else {
         // CLOSE MODAL
         closeModal('addCountry');
+
+        // ENABLE ADD COUNTRY BUTTON
+        addCountryModalBtn.disabled = false;
+
         // ERROR MESSAGE
         toastr.error('There was an error!');
       }
@@ -173,7 +186,8 @@ new Vue({
         this.invalidCountryDetails = false;
         this.emptyCountryShortCode();
       }
-      else { // UPDATE COUNTRY
+      else { 
+        // API PARAMETERS
         params = {
           "name": this.countryName,
           "country_id": this.countryId,
@@ -181,10 +195,17 @@ new Vue({
           "status": this.countryStatus
         }
 
+        // UPDATE COUNTRY
         this.updateCountry(params);
       }
     },
     updateCountry: async function (params) {
+      const addCountryModalBtn = document.querySelector('.update-country-modal-btn');
+      
+      // DISABLE ADD COUNTRY BUTTON
+      addCountryModalBtn.disabled = true;
+
+      // UPDATE COUNTRY ON SERVER
       const result = await actionAPICall(baseUrl, updateCountryEndPoint, params);
       const res = await result.json();
       
@@ -192,6 +213,9 @@ new Vue({
       if(res.result === 'success') {
         // CLOSE MODAL
         closeModal('updateCountry');
+
+        // ENABLE ADD COUNTRY BUTTON
+        addCountryModalBtn.disabled = false;
         
         toastr.success('Country updated successfully');
         this.viewAllCountries(); // RELOAD ALL COUNTRIES VIEW
@@ -205,6 +229,10 @@ new Vue({
       else {
         // CLOSE MODAL
         closeModal('updateCountry'); 
+
+        // ENABLE ADD COUNTRY BUTTON
+        addCountryModalBtn.disabled = false;
+
         // ERROR MESSAGE
         toastr.error('There was an error!');
       }
