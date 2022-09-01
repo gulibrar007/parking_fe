@@ -65,3 +65,9 @@ function validEmail (email) {
   return re.test(email);
 }
 /*--------- EMAIL VERIFICATION --------*/
+
+/*--------- CNIC VERIFICATION --------*/
+function validCnic (cnic) { 
+  return /^[0-9+]{13}$/.test(cnic);
+}
+/*--------- CNIC VERIFICATION --------*/
