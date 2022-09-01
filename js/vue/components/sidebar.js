@@ -40,6 +40,9 @@ Vue.component('sidebarcomponents',{
                     <li>
                       <a href="roles.html">Roles</a>
                     </li>
+                    <li>
+                      <a href="users.html">Users</a>
+                    </li>
                   </ul>
                 </li>
 
