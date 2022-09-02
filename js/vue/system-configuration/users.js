@@ -92,11 +92,11 @@ new Vue({
 
       // IF TARGET MODAL IS ADD EMPLOYEE, VERIFY EMPLOYEE MOBILE NUMBER
       if(addBtnTarget === '#addEmployee') {
-        this.mobileNumberVerification('employee_mobile');
+        mobileNumberVerification('employee_mobile');
       }
       // IF TARGET MODAL IS ADD CUSTOMER, VERIFY CUSTOMER MOBILE NUMBER
       else if(addBtnTarget === '#addCustomer') {
-        this.mobileNumberVerification('customer_mobile');
+        mobileNumberVerification('customer_mobile');
       }
 
     },
@@ -742,50 +742,6 @@ new Vue({
       this.error = 'Address is empty';
     },
     /*--------- COMMON ERRORS EMPTY/ INVALID INPUT FIELD ------*/
-
-    /*--------- MOBILE NUMBER VERIFICATION --------*/
-    mobileNumberVerification: function (mobileInput) { 
-      var input = document.querySelector(`#${mobileInput}`);
-      //var input2 = document.querySelector("#cell_phone_2");
-      errorMap = ["is invalid", "has invalid country code", "is too short", "is too long", "is invalid"];
-
-      // initialise plugin
-      var iti = window.intlTelInput(input, {
-        placeholderNumberType: "MOBILE",
-        preferredCountries: ['pk'],
-        utilsScript: "js/assets/International Tel/js/utils.js",
-      });
-
-      var reset = function () {
-        input.classList.remove("error");
-        
-      };
-
-      // on blur: validate
-      input.addEventListener('blur', function () {
-        reset();
-        if (input.value.trim()) {
-          if (iti.isValidNumber()) {
-            //console.log('correct phone number')
-            errorMsgMobileNumber = 'valid number';
-            //return true;
-          } 
-          else {
-            input.classList.add("error");
-            errorCode = iti.getValidationError();
-            //console.log('wrong mobile number');
-            console.log(errorCode)
-            errorMsgMobileNumber = errorMap[errorCode];
-            //return false;
-            
-          }
-        }
-      });
-      // on keyup / change flag: reset
-      input.addEventListener('change', reset);
-      input.addEventListener('keyup', reset); 
-    }
-    /*--------- MOBILE NUMBER VERIFICATION --------*/
  
   }
 })
