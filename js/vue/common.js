@@ -72,10 +72,10 @@ function validCnic (cnic) {
 }
 /*--------- CNIC VERIFICATION --------*/
 
-/*--------- MOBILE NUMBER VERIFICATION --------*//*
-function mobileNumberVerification (input, errorMsgMobileNumber) { 
-  //var input = document.querySelector("#phone");
-  //var input2 = document.querySelector("#cell_phone_2");
+/*--------- MOBILE NUMBER VERIFICATION --------*/
+function mobileNumberVerification (mobileInput) { 
+  let input = document.querySelector(`#${mobileInput}`);
+  
   errorMap = ["is invalid", "has invalid country code", "is too short", "is too long", "is invalid"];
 
   // initialise plugin
@@ -84,11 +84,6 @@ function mobileNumberVerification (input, errorMsgMobileNumber) {
     preferredCountries: ['pk'],
     utilsScript: "js/assets/International Tel/js/utils.js",
   });
-  // var iti2 = window.intlTelInput(input2, {
-  //  placeholderNumberType: "MOBILE",
-  //  preferredCountries: ['pk'],
-  //  utilsScript: "js/assets/International Tel/js/utils.js",
-  //});
 
   var reset = function () {
     input.classList.remove("error");
@@ -100,14 +95,14 @@ function mobileNumberVerification (input, errorMsgMobileNumber) {
     reset();
     if (input.value.trim()) {
       if (iti.isValidNumber()) {
-        console.log('correct phone number')
+        //console.log('correct phone number')
         errorMsgMobileNumber = 'valid number';
         //return true;
       } 
       else {
         input.classList.add("error");
         errorCode = iti.getValidationError();
-        console.log('wrong mobile number');
+        //console.log('wrong mobile number');
         console.log(errorCode)
         errorMsgMobileNumber = errorMap[errorCode];
         //return false;
@@ -118,5 +113,5 @@ function mobileNumberVerification (input, errorMsgMobileNumber) {
   // on keyup / change flag: reset
   input.addEventListener('change', reset);
   input.addEventListener('keyup', reset); 
-}*/
+}
 /*--------- MOBILE NUMBER VERIFICATION --------*/
