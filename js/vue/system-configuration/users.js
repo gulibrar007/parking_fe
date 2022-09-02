@@ -7,6 +7,9 @@ const updateUserStatusEndPoint = "/update_user_status";
 // ADD EMPLOYEE IN USERS
 const addEmployeeInUserEndPoint = "/add_employee_user";
 
+// ADD CUSTOMER IN USERS
+const addCustomerInUserEndPoint = "/add_customer_user";
+
 // VIEW ALL ACTIVE COUNTRIES
 const viewAllActiveCountriesEndPoint = "/get_active_countries";
 
@@ -49,9 +52,28 @@ new Vue({
     // EMPLOYEE VARIABLES
 
     // CUSTOMER VARIABLES
+    invalidCustomerDetails: true,
+
+    validCustomerName: false,
+    customerName: '',
+    validCustomerEmail: false,
+    customerEmail: '',
+    validCustomerMobile: false,
+    customerMobile: '',
+    validCustomerCnic: false,
+    customerCnic: '',
+    validCustomerPassword: false,
+    customerPassword: '',
+    validCustomerCountry: false,
+    selectedCustomerCountry: '',
+    validCustomerCity: false,
+    selectedCustomerCity: '',
+    validCustomerAddress: false,
+    customerAddress: '',
+
     customerList: [],
     // CUSTOMER VARIABLES
-
+    countryIdSelected: '',
     countryList: [],
     cityList: [],
     roleList: [],
@@ -61,9 +83,25 @@ new Vue({
 
     this.viewAllActiveCountries(); // VIEW ALL ACTIVE COUNTRIES
     this.viewAllActiveRoles(); // VIEW ALL ACTIVE ROLES
-    this.mobileNumberVerification(); 
   },
   methods: {
+    /*---------- ON CLICKING EMPLOYEE TAB -------------------------*/
+    onAddNewBtnClick: function (e) {
+      // GET THE ADD NEW BUTTON TARGET MODAL
+      const addBtnTarget = e.target.dataset.target;
+
+      // IF TARGET MODAL IS ADD EMPLOYEE, VERIFY EMPLOYEE MOBILE NUMBER
+      if(addBtnTarget === '#addEmployee') {
+        this.mobileNumberVerification('employee_mobile');
+      }
+      // IF TARGET MODAL IS ADD CUSTOMER, VERIFY CUSTOMER MOBILE NUMBER
+      else if(addBtnTarget === '#addCustomer') {
+        this.mobileNumberVerification('customer_mobile');
+      }
+
+    },
+    /*---------- ON CLICKING EMPLOYEE TAB -------------------------*/
+
     /*---------- ON CLICKING EMPLOYEE TAB -------------------------*/
     onClickEmployeeTab: function () {
       // GET THE ADD NEW BUTTON
@@ -156,42 +194,42 @@ new Vue({
         this.invalidEmployeeDetails = false;
         // SCROLL TO TOP OF MODAL
         $('#addEmployee, body').animate({ scrollTop: $('#addEmployeeEmail').offset().top }, 800);
-        this.emptyEmployeeEmail();
+        this.emptyEmail();
       }
       else if(!validEmail(this.employeeEmail)) { // INVALID EMPLOYEE EMAIL
         this.validEmployeeEmail = true;
         this.invalidEmployeeDetails = false;
         // SCROLL TO TOP OF MODAL
         $('#addEmployee, body').animate({ scrollTop: $('#addEmployeeEmail').offset().top }, 800);
-        this.invalidEmployeeEmail();
+        this.invalidEmail();
       }
       else if(this.employeeMobile === '') { // EMPTY MOBILE NUMBER
         this.validEmployeeMobile = true;
         this.invalidEmployeeDetails = false;
         // SCROLL TO TOP OF MODAL
         $('#addEmployee, body').animate({ scrollTop: $('#addEmployeeMobile').offset().top }, 800);
-        this.emptyEmployeeMobile();
+        this.emptyMobileNumber();
       }
       else if(errorMsgMobileNumber != 'valid number') { // CHECK FOR VALID MOBILE NUMBER
         this.validEmployeeMobile = true;
         this.invalidEmployeeDetails = false;
         // SCROLL TO TOP OF MODAL
         $('#addEmployee,body').animate({ scrollTop: $("#addEmployeeMobile").offset().top }, 'slow');
-        this.invalidEmployeeMobile();
+        this.invalidMobileNumber();
       }
       else if(this.employeeCnic === '') { // EMPTY CNIC
         this.validEmployeeCnic = true;
         this.invalidEmployeeDetails = false;
         // SCROLL TO TOP OF MODAL
         $('#addEmployee,body').animate({ scrollTop: $("#addEmployeeCnic").offset().top }, 'slow');
-        this.emptyEmployeeCnic();
+        this.emptyCnic();
       }
       else if(!validCnic(this.employeeCnic)) { // EMPTY CNIC
         this.validEmployeeCnic = true;
         this.invalidEmployeeDetails = false;
         // SCROLL TO TOP OF MODAL
         $('#addEmployee,body').animate({ scrollTop: $("#addEmployeeCnic").offset().top }, 'slow');
-        this.invalidEmployeeCnic();
+        this.invalidCnic();
       }
       else if(this.selectedEmployeeRole === '') { // EMPTY EMPLOYEE ROLE
         this.validEmployeeRole = true;
@@ -205,21 +243,21 @@ new Vue({
         this.invalidEmployeeDetails = false;
         // SCROLL TO TOP OF MODAL
         $('#addEmployee,body').animate({ scrollTop: $("#addEmployeeCountry").offset().top }, 'slow');
-        this.emptyEmployeeCountry();
+        this.emptyCountry();
       }
       else if(this.selectedEmployeeCity === '') { // EMPTY EMPLOYEE CITY
         this.validEmployeeCity = true;
         this.invalidEmployeeDetails = false;
         // SCROLL TO TOP OF MODAL
         $('#addEmployee,body').animate({ scrollTop: $("#addEmployeeCity").offset().top }, 'slow');
-        this.emptyEmployeeCity();
+        this.emptyCity();
       }
       else if(this.employeeAddress === '') { // EMPTY EMPLOYEE ADDRESS
         this.validEmployeeAddress = true;
         this.invalidEmployeeDetails = false;
         // SCROLL TO TOP OF MODAL
         $('#addEmployee,body').animate({ scrollTop: $("#addEmployeeAddress").offset().top }, 'slow');
-        this.emptyEmployeeAddress();
+        this.emptyAddress();
       }
       
       else { 
@@ -267,6 +305,7 @@ new Vue({
         this.employeeCnic = '';
         this.selectedEmployeeRole = '';
         this.selectedEmployeeCountry = '';
+        this.cityList = [];
         this.selectedEmployeeCity = '';
         this.employeeAddress = '';
       }
@@ -287,35 +326,8 @@ new Vue({
     emptyEmployeeName: function () {
       this.error = 'Employee name is empty';
     },
-    emptyEmployeeEmail: function () {
-      this.error = 'Email is empty';
-    },
-    invalidEmployeeEmail: function () {
-      this.error = 'Email is invalid';
-    },
-    emptyEmployeeMobile: function () {
-      this.error = 'Mobile # is empty';
-    },
-    invalidEmployeeMobile: function () {
-      this.error = 'Mobile # ' + errorMsgMobileNumber;
-    },
-    emptyEmployeeCnic: function () {
-      this.error = 'CNIC is empty';
-    },
-    invalidEmployeeCnic: function () {
-      this.error = 'CNIC in invalid';
-    },
     emptyEmployeeRole: function () {
       this.error = 'Select role';
-    },
-    emptyEmployeeCountry: function () {
-      this.error = 'Select country';
-    },
-    emptyEmployeeCity: function () {
-      this.error = 'Select city';
-    },
-    emptyEmployeeAddress: function () {
-      this.error = 'Address is empty';
     },
     /*---------- EMPTY/INVALID FIELD MESSAGE ---------------------*/
 
@@ -404,6 +416,194 @@ new Vue({
       }, 500);
     },
 
+    /*---------- ADD CUSTOMER -------------------------------------*/
+    // ON ADD BUTTON CLICK IN ADD CUSTOMER MODAL
+    onClickAddCustomerBtn: function () {
+      if(this.customerName === '') { // EMPTY CUSTOMER NAME
+        this.validCustomerName = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer, body').animate({ scrollTop: $('#addCustomerName').offset().top }, 800);
+        this.emptyCustomerName();
+      }
+      else if(this.customerEmail === '') { // EMPTY CUSTOMER EMAIL  
+        this.validCustomerEmail = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer, body').animate({ scrollTop: $('#addCustomerEmail').offset().top }, 800);
+        this.emptyEmail();
+      }
+      else if(!validEmail(this.customerEmail)) { // INVALID CUSTOMER EMAIL
+        this.validCustomerEmail = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer, body').animate({ scrollTop: $('#addCustomer').offset().top }, 800);
+        this.invalidEmail();
+      }
+      else if(this.customerPassword === '') { // EMPTY CUSTOMER PASSWORD
+        this.validCustomerPassword = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer, body').animate({ scrollTop: $('#addCustomerPassword').offset().top }, 800);
+        this.emptyCustomerPassword();
+      }
+      else if(this.customerMobile === '') { // EMPTY MOBILE NUMBER
+        this.validCustomerMobile = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer, body').animate({ scrollTop: $('#addCustomerMobile').offset().top }, 800);
+        this.emptyMobileNumber();
+      }
+      else if(errorMsgMobileNumber != 'valid number') { // CHECK FOR VALID MOBILE NUMBER
+        this.validCustomerMobile = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer, body').animate({ scrollTop: $('#addCustomerMobile').offset().top }, 800);
+        this.invalidMobileNumber();
+      }
+      else if(this.customerCnic === '') { // EMPTY CNIC
+        this.validCustomerCnic = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer,body').animate({ scrollTop: $("#addCustomerCnic").offset().top }, 'slow');
+        this.emptyCnic();
+      }
+      else if(!validCnic(this.customerCnic)) { // EMPTY CNIC
+        this.validCustomerCnic = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer,body').animate({ scrollTop: $("#addCustomerCnic").offset().top }, 'slow');
+        this.invalidCnic();
+      }
+      else if(this.selectedCustomerCountry === '') { // EMPTY CUSTOMER COUNTRY
+        this.validCustomerCountry = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer,body').animate({ scrollTop: $("#addCustomerCountry").offset().top }, 'slow');
+        this.emptyCountry();
+      }
+      else if(this.selectedCustomerCity === '') { // EMPTY CUSTOMER CITY
+        this.validCustomerCity = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer,body').animate({ scrollTop: $("#addCustomerCity").offset().top }, 'slow');
+        this.emptyCity();
+      }
+      else if(this.customerAddress === '') { // EMPTY CUSTOMER ADDRESS
+        this.validCustomerAddress = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer,body').animate({ scrollTop: $("#addCustomerAddress").offset().top }, 'slow');
+        this.emptyAddress();
+      }
+      
+      else { 
+        // API PARAMETERS
+        params = {
+          "name" : this.customerName,
+          "email": this.customerEmail,
+          "password": this.customerPassword,
+          "mobile": this.customerMobile,
+          "cnic": this.customerCnic,
+          "country": this.selectedCustomerCountry,
+          "city": this.selectedCustomerCity,
+          "address": this.customerAddress
+        }
+
+        // ADD CUSTOMER
+        this.addCustomer(params);
+      }
+    },
+    addCustomer: async function (params) {
+      const addCustomerModalBtn = document.querySelector('.add-customer-modal-btn');
+      
+      // DISABLE ADD CUSTOMER BUTTON
+      addCustomerModalBtn.disabled = true;
+
+      // ADD CUSTOMER ON SERVER
+      const result = await actionAPICall(baseUrl, addCustomerInUserEndPoint, params);
+      const res = await result.json();
+
+      // CUSTOMER ADDED SUCCESSFULLY
+      if(res.result === 'success') {
+        // CLOSE MODAL
+        closeModal('addCustomer');
+
+        // ENABLE ADD CUSTOMER BUTTON
+        addCustomerModalBtn.disabled = false;
+        
+        toastr.success('Customer added successfully');
+        this.viewAllCustomers(); // RELOAD ALL CUSTOMERS VIEW
+
+        // RESET INPUT FIELDS
+        this.customerName = '';
+        this.customerEmail = '',
+        this.customerPassword = '';
+        this.customerMobile = '';
+        this.customerCnic = '';
+        this.selectedCustomerCountry = '';
+        this.cityList = [];
+        this.selectedCustomerCity = '';
+        this.selectedCustomerCity = '';
+      }
+      else {
+        // CLOSE MODAL
+        closeModal('addCustomer');
+
+        // ENABLE ADD CUSTOMER BUTTON
+        addCustomerModalBtn.disabled = false;
+
+        // ERROR MESSAGE
+        toastr.error('There was an error!');
+      }
+    },
+    /*---------- ADD CUSTOMER -------------------------------------*/
+
+    /*---------- EMPTY/INVALID FIELD MESSAGE ---------------------*/
+    emptyCustomerName: function () {
+      this.error = 'Customer name is empty';
+    },
+    emptyCustomerPassword: function () {
+      this.error = 'Password is empty';
+    },
+    /*---------- EMPTY/INVALID FIELD MESSAGE ---------------------*/
+
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
+    keyUpCustomerName: function () { // KEY IS PRESSED UP ON CUSTOMER NAME INPUT
+      this.validCustomerName = false;
+      this.invalidCustomerDetails = true;
+    },
+    keyUpCustomerEmail: function () { // KEY IS PRESSED UP ON CUSTOMER EMAIL INPUT
+      this.validCustomerEmail = false;
+      this.invalidCustomerDetails = true;
+    },
+    keyUpCustomerMobile: function () { // KEY IS PRESSED UP ON CUSTOMER MOBILE INPUT
+      this.validCustomerMobile = false;
+      this.invalidCustomerDetails = true;
+    },
+    keyUpCustomerCnic: function () { // KEY IS PRESSED UP ON CUSTOMER CNIC INPUT
+      this.validCustomerCnic = false;
+      this.invalidCustomerDetails = true;
+    },
+    keyUpCustomerPassword: function () { // KEY IS PRESSED UP ON CUSTOMER PASSWORD INPUT
+      this.validCustomerPassword = false;
+      this.invalidCustomerDetails = true;
+    },
+    keyUpCustomerAddress: function () { // KEY IS PRESSED UP ON CUSTOMER ADDRESS INPUT
+      this.validCustomerAddress = false;
+      this.invalidCustomerDetails = true;
+    },
+    onFocusCustomerCountry: function () { // ON FOCUS OF CUSTOMER COUNTRY SELECT INPUT
+      this.validCustomerCountry = false;
+      this.invalidCustomerDetails = true;
+    },
+    onFocusCustomerCity: function () { // ON FOCUS OF CUSTOMER CITY SELECT INPUT
+      this.validCustomerCity = false;
+      this.invalidCustomerDetails = true;
+    },
+    
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
+
     /*-------------------------------------------------------------*/
     /*---------------------- CUSTOMERS ----------------------------*/
     /*-------------------------------------------------------------*/
@@ -469,10 +669,21 @@ new Vue({
     /*------------------ VIEW ACTIVE COUNTRIES --------------------*/
 
     /*------------------ VIEW CITIES OF SELECTED COUNTRY --------------------*/
-    viewCitiesOfSelectedCountry: async function () {
+    viewCitiesOfSelectedCountry: async function (e) {
+      // VARIABLE TO STORE SELECTED COUNTRY ID
+      let countryIdSelected;
+
+      // CHECK IF COUNTRY FIELD IS FOR EMPLOYEE OR CUSTOMER
+      if(e.currentTarget.id === 'employee_country') {
+        countryIdSelected = this.selectedEmployeeCountry;
+      }
+      else if(e.currentTarget.id === 'customer_country') {
+        countryIdSelected = this.selectedCustomerCountry;
+      }
+
       // API PARAMETERS
       params = { 
-        "country_id": this.selectedEmployeeCountry
+        "country_id": countryIdSelected
       };
 
       // GET CITIES OF SELECTED COUNTRY FROM SERVER
@@ -500,10 +711,41 @@ new Vue({
         this.roleList = res.data; // STORE THE ROLES RETURNED IN ARRAY
       }
     },
-    /*------------------ VIEW ACTIVE ROLES --------------------*/   
+    /*------------------ VIEW ACTIVE ROLES --------------------*/  
+    
+    /*--------- COMMON ERRORS EMPTY/ INVALID INPUT FIELD ------*/
+    emptyEmail: function () {
+      this.error = 'Email is empty';
+    },
+    invalidEmail: function () {
+      this.error = 'Email is invalid';
+    },
+    emptyMobileNumber: function () {
+      this.error = 'Mobile # is empty';
+    },
+    invalidMobileNumber: function () {
+      this.error = 'Mobile # ' + errorMsgMobileNumber;
+    },
+    emptyCnic: function () {
+      this.error = 'CNIC is empty';
+    },
+    invalidCnic: function () {
+      this.error = 'CNIC in invalid';
+    },
+    emptyCountry: function () {
+      this.error = 'Select country';
+    },
+    emptyCity: function () {
+      this.error = 'Select city';
+    },
+    emptyAddress: function () {
+      this.error = 'Address is empty';
+    },
+    /*--------- COMMON ERRORS EMPTY/ INVALID INPUT FIELD ------*/
+
     /*--------- MOBILE NUMBER VERIFICATION --------*/
-    mobileNumberVerification: function () { 
-      var input = document.querySelector("#employee_mobile");
+    mobileNumberVerification: function (mobileInput) { 
+      var input = document.querySelector(`#${mobileInput}`);
       //var input2 = document.querySelector("#cell_phone_2");
       errorMap = ["is invalid", "has invalid country code", "is too short", "is too long", "is invalid"];
 
@@ -524,14 +766,14 @@ new Vue({
         reset();
         if (input.value.trim()) {
           if (iti.isValidNumber()) {
-            console.log('correct phone number')
+            //console.log('correct phone number')
             errorMsgMobileNumber = 'valid number';
             //return true;
           } 
           else {
             input.classList.add("error");
             errorCode = iti.getValidationError();
-            console.log('wrong mobile number');
+            //console.log('wrong mobile number');
             console.log(errorCode)
             errorMsgMobileNumber = errorMap[errorCode];
             //return false;

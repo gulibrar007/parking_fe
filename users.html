@@ -92,7 +92,7 @@
               <div class="x_title">
                 <div class="title-flex title-content-space-between">
                   <h2>List of Users</h2>
-                  <button type="button" class="btn btn-primary add-btn" data-toggle="modal" data-target="#addEmployee" style="display: none;">
+                  <button type="button" class="btn btn-primary add-btn" data-toggle="modal" data-target="#addEmployee" style="display: none;" @click="onAddNewBtnClick">
                     Add New
                   </button>
                   
@@ -368,6 +368,119 @@
           </div>
         </div>
         <!-- add employee -->
+
+        <!-- add customer -->
+        <div class="modal fade" id="addCustomer" role="dialog">
+          <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Customer</h4>
+              </div>
+              <div class="modal-body">
+                <!-- Error message -->
+                <p style="text-align: center;" :class="{'displayNone':invalidCustomerDetails}" id="dangerAlert"
+                  class="alert alert-danger text-color-white" v-html="error"></p>
+                <!-- Error message -->
+                <form>
+        
+                  <!-- Customer Name -->
+                  <div class="form-group" id="addCustomerName">
+                    <label for="customer_name" :class="{inputinvalidField: validCustomerName}">Customer Name: <span
+                        class="modal-required-input">*</span></label>
+                    <input type="text" id="customer_name" class="form-control" placeholder="Ali Hamza"
+                      :class="{invalidInput: validCustomerName}" v-model="customerName" v-on:keyup="keyUpCustomerName">
+                  </div>
+                  <!-- Customer Name -->
+        
+                  <!-- Customer E-mail -->
+                  <div class="form-group" id="addCustomerEmail">
+                    <label for="customer_email" :class="{inputinvalidField: validCustomerEmail}">Email: <span
+                        class="modal-required-input">*</span> </label>
+                    <input type="email" id="customer_email" class="form-control" placeholder="abc@gmail.com"
+                      :class="{invalidInput: validCustomerEmail}" v-model="customerEmail" v-on:keyup="keyUpCustomerEmail">
+                  </div>
+                  <!-- Customer E-mail -->
+        
+                  <!-- Customer Password -->
+                  <div class="form-group" id="addCustomerPassword">
+                    <label for="customer_password" :class="{inputinvalidField: validCustomerPassword}">Password: <span
+                        class="modal-required-input">*</span> </label>
+                    <input type="password" id="customer_password" class="form-control" placeholder="password"
+                      :class="{invalidInput: validCustomerPassword}" v-model="customerPassword" v-on:keyup="keyUpCustomerPassword">
+                  </div>
+                  <!-- Customer Password -->
+
+                  <!-- Customer Mobile -->
+                  <div class="form-group" id="addCustomerMobile">
+                    <label for="customer_mobile" :class="{inputinvalidField: validCustomerMobile}">Mobile #: <span
+                        class="modal-required-input">*</span> </label>
+                    <input type="tel" id="customer_mobile" class="form-control" placeholder="0333-1234567"
+                      :class="{invalidInput: validCustomerMobile}" v-model="customerMobile" v-on:keyup="keyUpCustomerMobile">
+                  </div>
+                  <!-- Customer Mobile -->
+        
+                  <!-- Customer CNIC -->
+                  <div class="form-group" id="addCustomerCnic">
+                    <label for="employee_email" :class="{inputinvalidField: validCustomerCnic}">CNIC: <span
+                        class="modal-required-input">*</span> </label>
+                    <input type="number" id="customer_cnic" class="form-control" placeholder="37201-1234567-8"
+                      :class="{invalidInput: validCustomerCnic}" v-model="customerCnic" v-on:keyup="keyUpCustomerCnic">
+                  </div>
+                  <!-- Customer CNIC -->
+        
+                  <!-- Customer Country -->
+                  <div class="form-group" id="addCustomerCountry">
+                    <label for="customer_country" :class="{inputinvalidField: validCustomerCountry}">Country: <span
+                        class="modal-required-input">*</span> </label>
+                    <select id="customer_country" class="form-control" v-model="selectedCustomerCountry"
+                      :class="{invalidInput: validCustomerCountry}" @change="viewCitiesOfSelectedCountry"
+                      @focus="onFocusCustomerCountry">
+                      <option value="" disabled selected>Select Country</option>
+                      <option v-for="data in countryList" :value="data.id">
+                        {{ data.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- Customer Country -->
+        
+                  <!-- Customer Cities Of Selected Country -->
+                  <div class="form-group" id="addCustomerCity">
+                    <label for="customer_city" :class="{inputinvalidField: validCustomerCity}">City: <span
+                        class="modal-required-input">*</span> </label>
+                    <select id="customer_city" class="form-control" v-model="selectedCustomerCity"
+                      :class="{invalidInput: validCustomerCity}" @focus="onFocusCustomerCity">
+                      <option value="" disabled selected>Select City</option>
+                      <option v-for="data in cityList" :value="data.id">
+                        {{ data.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- Customer Cities Of Selected Country -->
+        
+                  <!-- Customer Address -->
+                  <div class="form-group" id="addCustomerAddress">
+                    <label for="customer_address" :class="{inputinvalidField: validCustomerAddress}">Address: <span
+                        class="modal-required-input">*</span></label>
+                    <textarea id="customer_address" rows="2" class="form-control resize-vertical-only" placeholder="1020 Street"
+                      :class="{invalidInput: validCustomerAddress}" v-model="customerAddress"
+                      v-on:keyup="keyUpCustomerAddress"></textarea>
+                  </div>
+                  <!-- Customer Address -->
+        
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary add-customer-modal-btn" @click="onClickAddCustomerBtn">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+        <!-- add customer -->
         
         <!-- modals -->
       </div>
