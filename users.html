@@ -24,6 +24,10 @@
   <link rel="stylesheet" type="text/css" href="css/maps/jquery-jvectormap-2.0.3.css" />
   <link href="css/icheck/flat/green.css" rel="stylesheet" />
   <link href="css/floatexamples.css" rel="stylesheet" type="text/css" />
+
+  <!-- International Tel Input -->
+  <link rel="stylesheet" href="js/assets/International Tel/css/intlTelInput.css">
+
   <!-- Modal styling -->
   <link rel="stylesheet" href="css/modal.css">
   <!-- Vue Toastr -->
@@ -251,7 +255,120 @@
         </div>
         <!-- /page content -->
         
-        <!-- modals -->        
+        <!-- modals -->
+        <!-- add employee -->
+        <div class="modal fade" id="addEmployee" role="dialog">
+          <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Employee</h4>
+              </div>
+              <div class="modal-body">
+                <!-- Error message -->
+                <p style="text-align: center;" :class="{'displayNone':invalidEmployeeDetails}" id="dangerAlert"
+                  class="alert alert-danger text-color-white" v-html="error"></p>
+                <!-- Error message -->
+                <form>
+
+                  <!-- Employee Name -->
+                  <div class="form-group" id="addEmployeeName">
+                    <label for="employee_name" :class="{inputinvalidField: validEmployeeName}">Employee Name: <span
+                      class="modal-required-input">*</span></label>
+                    <input type="text" id="employee_name" class="form-control" placeholder="Ali Hamza"
+                      :class="{invalidInput: validEmployeeName}" v-model="employeeName" v-on:keyup="keyUpEmployeeName">
+                  </div>
+                  <!-- Employee Name -->
+
+                  <!-- Employee E-mail -->
+                  <div class="form-group" id="addEmployeeEmail">
+                    <label for="employee_email" :class="{inputinvalidField: validEmployeeEmail}">Email: <span
+                        class="modal-required-input">*</span> </label>
+                    <input type="email" id="employee_email" class="form-control" placeholder="abc@gmail.com"
+                      :class="{invalidInput: validEmployeeEmail}" v-model="employeeEmail" v-on:keyup="keyUpEmployeeEmail">
+                  </div>
+                  <!-- Employee E-mail -->
+
+                  <!-- Employee Mobile -->
+                  <div class="form-group" id="addEmployeeMobile">
+                    <label for="employee_mobile" :class="{inputinvalidField: validEmployeeMobile}">Mobile #: <span
+                        class="modal-required-input">*</span> </label>
+                    <input type="tel" id="employee_mobile" class="form-control" placeholder="0333-1234567"
+                        :class="{invalidInput: validEmployeeMobile}" v-model="employeeMobile" v-on:keyup="keyUpEmployeeMobile">
+                  </div>
+                  <!-- Employee Mobile -->
+        
+                  <!-- Employee CNIC -->
+                  <div class="form-group" id="addEmployeeCnic">
+                    <label for="employee_email" :class="{inputinvalidField: validEmployeeCnic}">CNIC: <span
+                      class="modal-required-input">*</span> </label>
+                    <input type="number" id="employee_cnic" class="form-control" placeholder="37201-1234567-8"
+                      :class="{invalidInput: validEmployeeCnic}" v-model="employeeCnic" v-on:keyup="keyUpEmployeeCnic">
+                  </div>
+                  <!-- Employee CNIC -->
+
+                  <!-- Employee Role -->
+                  <div class="form-group" id="addEmployeeRole">
+                    <label for="employee_role" :class="{inputinvalidField: validEmployeeRole}">Role: <span
+                        class="modal-required-input">*</span> </label>
+                    <select id="employee_role" class="form-control" v-model="selectedEmployeeRole" :class="{invalidInput: validEmployeeRole}" @focus="onFocusEmployeeRole">
+                      <option value="" disabled selected>Select Role</option>
+                      <option v-for="data in roleList" :value="data.id">
+                        {{ data.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- Employee Role -->
+
+                  <!-- Employee Country -->
+                  <div class="form-group" id="addEmployeeCountry">
+                    <label for="employee_country" :class="{inputinvalidField: validEmployeeCountry}">Country: <span
+                      class="modal-required-input">*</span> </label>
+                    <select id="employee_country" class="form-control" v-model="selectedEmployeeCountry" :class="{invalidInput: validEmployeeCountry}" @change="viewCitiesOfSelectedCountry" @focus="onFocusEmployeeCountry">
+                      <option value="" disabled selected>Select Country</option>
+                      <option v-for="data in countryList" :value="data.id">
+                        {{ data.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- Employee Country -->
+
+                  <!-- Employee Cities Of Selected Country -->
+                  <div class="form-group" id="addEmployeeCity">
+                    <label for="employee_city" :class="{inputinvalidField: validEmployeeCity}">City: <span
+                      class="modal-required-input">*</span> </label>
+                    <select id="employee_city" class="form-control" v-model="selectedEmployeeCity" :class="{invalidInput: validEmployeeCity}" @focus="onFocusEmployeeCity">
+                      <option value="" disabled selected>Select City</option>
+                      <option v-for="data in cityList" :value="data.id">
+                        {{ data.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- Employee Cities Of Selected Country -->
+
+                  <!-- Employee Address -->
+                  <div class="form-group" id="addEmployeeAddress">
+                    <label for="employee_address" :class="{inputinvalidField: validEmployeeAddress}">Address: <span
+                        class="modal-required-input">*</span></label>
+                        <textarea id="employee_address" rows="2" class="form-control resize-vertical-only" placeholder="1020 Street"
+                      :class="{invalidInput: validEmployeeAddress}" v-model="employeeAddress" v-on:keyup="keyUpEmployeeAddress"></textarea>
+                  </div>
+                  <!-- Employee Address -->
+
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary add-employee-modal-btn" @click="onClickAddBtn">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+        <!-- add employee -->
+        
         <!-- modals -->
       </div>
 
@@ -299,8 +416,8 @@
   <!-- /footer content -->
 
   <!-- International Tel Input -->
-  <script src="js/assets//International Tel/intlTelInput.js"></script>
-  <script src="js/assets//International Tel/intlTelInput-jquery.min.js"></script>
+  <script src="js/assets/International Tel/js/intlTelInput.js"></script>
+  <script src="js/assets/International Tel/js/intlTelInput-jquery.min.js"></script>
 
   <!-- JQuery data-table -->
   <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
