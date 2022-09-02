@@ -5646,3 +5646,8 @@ input:focus {
 .resize-vertical-only {
   resize: vertical;
 }
+
+/* international number input */
+.iti {
+  width: 100%;
+}
