@@ -291,7 +291,7 @@ new Vue({
     },
     /*---------- EMPTY/INVALID FIELD MESSAGE ---------------------*/
 
-    /*----------- HIGHLIGHT ERRORS -----------------------*/
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
     keyUpCountryName: function () {  // KEY IS PRESSED UP ON COUNTRY NAME INPUT
       this.validCountryName = false;
       this.invalidCountryDetails = true;
@@ -300,6 +300,6 @@ new Vue({
       this.validCountryShortCode = false;
       this.invalidCountryDetails = true;
     }
-    /*----------- HIGHLIGHT ERRORS -----------------------*/
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
   }
 })

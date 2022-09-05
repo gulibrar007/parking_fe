@@ -130,7 +130,7 @@ new Vue({
     },
     /*---------- EMPTY/INVALID FIELD MESSAGE ---------------------*/
 
-    /*----------- HIGHLIGHT ERRORS -----------------------*/
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
     keyUpEmailLogin: function () {  // KEY IS PRESSED UP ON EMAIL INPUT
       this.validEmailLogin = false;
       this.invalidLoginAlert = true;
@@ -143,6 +143,6 @@ new Vue({
       passwordLogin.classList.remove('invalidInput'); // REMOVE RED BORDER FROM PASSWORD INPUT
       lockIcon.classList.remove('inputinvalidField'); // REMOVE RED COLOR FROM ICON
     },
-    /*----------- HIGHLIGHT ERRORS -----------------------*/
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
   }
 })
