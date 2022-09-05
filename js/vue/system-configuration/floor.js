@@ -4,11 +4,11 @@ const viewAllFloorsEndPoint = "/get_all_floors";
 // VIEW ACTIVE FLOORS ENDPOINT
 const viewActiveFloorsEndPoint = "/get_active_floors";
 
-// VIEW ALL BUILDINGS
-const viewAllBuildingsEndPoint = "/get_all_buildings";
+// VIEW ALL ACTIVE BUILDINGS
+const viewAllActiveBuildingsEndPoint = "/get_active_buildings";
 
 // VIEW SINGLE FLOOR
-//const viewSingleFloorEndPoint= "/get_single_floor";
+const viewSingleFloorEndPoint= "/get_single_floor";
 
 // ADD FLOOR ENDPOINT
 const addFloorEndPoint = "/add_floors";
@@ -38,7 +38,7 @@ new Vue({
   },
   mounted: function () { // WHEN VUE COMPONENT IS ADDED TO DOM, THIS HOOK IS CALLED
     this.viewAllFloors();
-    this.viewAllBuildings();
+    this.viewAllActiveBuildings();
   },
   methods: {
     /*---------- VIEW ALL FLOORS -------------------------*/
@@ -89,21 +89,20 @@ new Vue({
     },
     /*---------- VIEW ALL FLOORS -------------------------*/
 
-    /*---------- VIEW ALL BUILDINGS -------------------------*/
-    viewAllBuildings: async function () {
-      // PARAMETERS TO VIEW ALL BUILDINGS
+    /*---------- VIEW ALL ACTIVE BUILDINGS -------------------------*/
+    viewAllActiveBuildings: async function () {
+      // PARAMETERS TO VIEW ALL ACTIVE BUILDINGS
       let params = { }; 
-      // GET ALL BUILDINGS FROM API CALL
-      const result = await actionAPICall(baseUrl, viewAllBuildingsEndPoint, params);
+      // GET ALL ACTIVE BUILDINGS FROM API CALL
+      const result = await actionAPICall(baseUrl, viewAllActiveBuildingsEndPoint, params);
       const res = await result.json();
       
-      // IF ALL BUILDINGS ARE RETURNED SUCCESSFULLY
+      // IF ALL ACTIVE BUILDINGS ARE RETURNED SUCCESSFULLY
       if(res.result == 1) {
-        this.buildingList = res.data; // STORE THE BUILDINGS RETURNED IN ARRAY
+        this.buildingList = res.data; // STORE THE ACTIVE BUILDINGS RETURNED IN ARRAY
       }
     },
-    /*---------- VIEW ALL BUILDINGS -------------------------*/
-
+    /*---------- VIEW ALL ACTIVE BUILDINGS -------------------------*/
 
     /*---------- ADD FLOOR --------------------------------*/
     // ON ADD BUTTON CLICK IN ADD FLOOR MODAL
@@ -171,37 +170,32 @@ new Vue({
     /*---------- UPDATE FLOOR -----------------------------*/
     // GET CURRENT VALUES OF FLOOR
     onClickOpenUpdateFloorModal: async function (e) {
-      // GET building ID OF CLICKED ITEM
-      //this.buildingId = e.currentTarget.getAttribute('data-building-id');
-      
+      // GET FLOOR ID OF CLICKED ITEM
+      this.floorId = e.currentTarget.getAttribute('data-floor-id');
 
       // API PARAMETERS
-      //params = {
-      //  "building_id": this.buildingId
-      //};
+      params = {
+        "floor_id": this.floorId
+      };
 
-      // VIEW SINGLE building INFORMATION
-      //const result = await actionAPICall(baseUrl, viewSinglebuildingEndPoint, params);
-      //const res = await result.json();
+      // VIEW SINGLE FLOOR INFORMATION
+      const result = await actionAPICall(baseUrl, viewSingleFloorEndPoint, params);
+      const res = await result.json();
 
-      // SINGLE building DATA RETURNED SUCCESSFULLY 
-      //if(res.result === 1) {
-        // STORE SINGLE building INFORMATION IN VARIABLE 
-        //const singlebuildingInfo = res.data[0];
-        // ASSIGN building INFORMATION TO RESPECTIVE INPUT FIELD
-        //this.buildingName = singlebuildingInfo.name;
-        //this.buildingShortCode = singlebuildingInfo.short_code;
-        //this.buildingStatus = singlebuildingInfo.status;
-      //}
-      //else {
-        //toastr.error('There was an error');
-      //}
-
-      // GET CURRENT FLOOR VALUES
-      this.floorId = e.currentTarget.getAttribute('data-floor-id');
-      this.floorNumber = e.currentTarget.getAttribute('data-floor-number');
-      this.floorStatus = e.currentTarget.getAttribute('data-current-status');
-      this.selectedBuilding = e.currentTarget.getAttribute('data-building-id');
+      // SINGLE FLOOR DATA RETURNED SUCCESSFULLY 
+      if(res.result === 1) {
+        // STORE SINGLE FLOOR INFORMATION IN VARIABLE 
+        const singleFloorInfo = res.data[0];
+        // ASSIGN FLOOR INFORMATION TO RESPECTIVE INPUT FIELD
+        
+        this.floorNumber = singleFloorInfo.floor_number;
+        this.floorId = singleFloorInfo.id;
+        this.floorStatus = singleFloorInfo.status;
+        this.selectedBuilding = singleFloorInfo.building_id;
+      }
+      else {
+        toastr.error('There was an error');
+      }
 
     },
     // ON UPDATE BUTTON CLICK IN UPDATE FLOOR MODAL
@@ -322,7 +316,7 @@ new Vue({
     },
     /*---------- EMPTY/INVALID FIELD MESSAGE ---------------------*/
 
-    /*----------- HIGHLIGHT ERRORS -----------------------*/
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
     keyUpFloorNumber: function () {  // KEY IS PRESSED UP ON FLOOR NUMBER INPUT
       this.validFloorNumber = false;
       this.invalidFloorDetails = true;
@@ -331,6 +325,6 @@ new Vue({
       this.validBuilding = false;
       this.invalidFloorDetails = true;
     }
-    /*----------- HIGHLIGHT ERRORS -----------------------*/
+    /*----------- REMOVE HIGHLIGHT ERRORS -----------------------*/
   }
 })

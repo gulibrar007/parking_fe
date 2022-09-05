@@ -5,7 +5,7 @@ const viewAllRolesEndPoint = "/get_all_roles";
 const viewActiveRolesEndPoint = "/get_active_roles";
 
 // VIEW SINGLE ROLE
-//const viewSingleRoleEndPoint= "/get_single_role";
+const viewSingleRoleEndPoint= "/get_single_role";
 
 // ADD ROLE ENDPOINT
 const addRoleEndPoint = "/add_user_role";
@@ -141,36 +141,32 @@ new Vue({
     /*---------- UPDATE ROLE -----------------------------*/
     // GET CURRENT VALUES OF ROLE
     onClickOpenUpdateRoleModal: async function (e) {
-      // GET building ID OF CLICKED ITEM
-      //this.buildingId = e.currentTarget.getAttribute('data-building-id');
+      // GET ROLE ID OF CLICKED ITEM
+      this.roleId = e.currentTarget.getAttribute('data-role-id');
       
 
       // API PARAMETERS
-      //params = {
-      //  "building_id": this.buildingId
-      //};
+      params = {
+        "role_id": this.roleId
+      };
 
-      // VIEW SINGLE building INFORMATION
-      //const result = await actionAPICall(baseUrl, viewSinglebuildingEndPoint, params);
-      //const res = await result.json();
+      // VIEW SINGLE ROLE INFORMATION
+      const result = await actionAPICall(baseUrl, viewSingleRoleEndPoint, params);
+      const res = await result.json();
 
-      // SINGLE building DATA RETURNED SUCCESSFULLY 
-      //if(res.result === 1) {
-        // STORE SINGLE building INFORMATION IN VARIABLE 
-        //const singlebuildingInfo = res.data[0];
-        // ASSIGN building INFORMATION TO RESPECTIVE INPUT FIELD
-        //this.buildingName = singlebuildingInfo.name;
-        //this.buildingShortCode = singlebuildingInfo.short_code;
-        //this.buildingStatus = singlebuildingInfo.status;
-      //}
-      //else {
-        //toastr.error('There was an error');
-      //}
-
-      // GET CURRENT ROLE VALUES
-      this.roleName = e.currentTarget.getAttribute('data-role-name');
-      this.roleId = e.currentTarget.getAttribute('data-role-id');
-      this.roleStatus = e.currentTarget.getAttribute('data-current-status');
+      // SINGLE ROLE DATA RETURNED SUCCESSFULLY 
+      if(res.result === 1) {
+        // STORE SINGLE ROLE INFORMATION IN VARIABLE 
+        const singleRoleInfo = res.data[0];
+        
+        // ASSIGN ROLE INFORMATION TO RESPECTIVE INPUT FIELD
+        this.roleName = singleRoleInfo.name;
+        this.roleId = singleRoleInfo.id;
+        this.roleStatus = singleRoleInfo.status;
+      }
+      else {
+        toastr.error('There was an error');
+      }
 
     },
     // ON UPDATE BUTTON CLICK IN UPDATE ROLE MODAL
@@ -280,11 +276,11 @@ new Vue({
     },
     /*---------- EMPTY/INVALID FIELD MESSAGE ---------------------*/
 
-    /*----------- HIGHLIGHT ERRORS -----------------------*/
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
     keyUpRoleName: function () {  // KEY IS PRESSED UP ON ROLE NAME INPUT
       this.validRoleName = false;
       this.invalidRoleDetails = true;
     }
-    /*----------- HIGHLIGHT ERRORS -----------------------*/
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
   }
 })

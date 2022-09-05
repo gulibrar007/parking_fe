@@ -5,7 +5,7 @@ const viewAllBuildingsEndPoint = "/get_all_buildings";
 const viewActiveBuildings = "/get_active_buildings";
 
 // VIEW SINGLE BUILDING
-//const viewSingleBuildingEndPoint= "/get_single_building";
+const viewSingleBuildingEndPoint= "/get_single_building";
 
 // ADD BUILDING ENDPOINT
 const addBuildingEndPoint = "/add_building";
@@ -139,38 +139,33 @@ new Vue({
     /*---------- ADD BUILDINGS --------------------------------*/
 
     /*---------- UPDATE BUILDING -----------------------------*/
-    // GET CURRENT VALUES OF building
-    onClickOpenUpdatebuildingModal: async function (e) {
+    // GET CURRENT VALUES OF BUILDING
+    onClickOpenUpdateBuildingModal: async function (e) {
       // GET building ID OF CLICKED ITEM
-      //this.buildingId = e.currentTarget.getAttribute('data-building-id');
-      
+      this.buildingId = e.currentTarget.getAttribute('data-building-id');
 
       // API PARAMETERS
-      //params = {
-      //  "building_id": this.buildingId
-      //};
+      params = {
+        "building_id": this.buildingId
+      };
 
-      // VIEW SINGLE building INFORMATION
-      //const result = await actionAPICall(baseUrl, viewSinglebuildingEndPoint, params);
-      //const res = await result.json();
+      // VIEW SINGLE BUILDING INFORMATION
+      const result = await actionAPICall(baseUrl, viewSingleBuildingEndPoint, params);
+      const res = await result.json();
 
-      // SINGLE building DATA RETURNED SUCCESSFULLY 
-      //if(res.result === 1) {
-        // STORE SINGLE building INFORMATION IN VARIABLE 
-        //const singlebuildingInfo = res.data[0];
-        // ASSIGN building INFORMATION TO RESPECTIVE INPUT FIELD
-        //this.buildingName = singlebuildingInfo.name;
-        //this.buildingShortCode = singlebuildingInfo.short_code;
-        //this.buildingStatus = singlebuildingInfo.status;
-      //}
-      //else {
-        //toastr.error('There was an error');
-      //}
-
-      // GET CURRENT BUILDING VALUES
-      this.buildingId = e.currentTarget.getAttribute('data-building-id');
-      this.buildingName = e.currentTarget.getAttribute('data-name');
-      this.buildingStatus = e.currentTarget.getAttribute('data-status');
+      // SINGLE BUILDING DATA RETURNED SUCCESSFULLY 
+      if(res.result === 1) {
+        // STORE SINGLE BUILDING INFORMATION IN VARIABLE 
+        const singleBuildingInfo = res.data[0];
+        // ASSIGN BUILDING INFORMATION TO RESPECTIVE INPUT FIELD
+        this.buildingName = singleBuildingInfo.name;
+        this.buildingId = singleBuildingInfo.id;
+        this.buildingStatus = singleBuildingInfo.status;
+      }
+      else {
+        toastr.error('There was an error');
+      }
+      
     },
     // ON UPDATE BUTTON CLICK IN UPDATE BUILDING MODAL
     onClickUpdateBtn: function () {
@@ -279,11 +274,11 @@ new Vue({
     },
     /*---------- EMPTY/INVALID FIELD MESSAGE ---------------------*/
 
-    /*----------- HIGHLIGHT ERRORS -----------------------*/
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
     keyUpBuildingName: function () {  // KEY IS PRESSED UP ON BUILDING NAME INPUT
       this.validBuildingName = false;
       this.invalidBuildingDetails = true;
     }
-    /*----------- HIGHLIGHT ERRORS -----------------------*/
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
   }
 })
