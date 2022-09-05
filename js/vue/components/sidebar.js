@@ -43,6 +43,9 @@ Vue.component('sidebarcomponents',{
                     <li>
                       <a href="users.html">Users</a>
                     </li>
+                    <li>
+                      <a href="currency.html">Currency</a>
+                    </li>
                   </ul>
                 </li>
 
