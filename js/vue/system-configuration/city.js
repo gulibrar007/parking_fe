@@ -43,7 +43,7 @@ new Vue({
   },
   mounted: function () { // WHEN VUE COMPONENT IS ADDED TO DOM, THIS HOOK IS CALLED
     this.viewAllCities();
-    this.viewAllCountries();
+    this.viewAllActiveCountries();
   },
   methods: {
     /*---------- VIEW ALL CITIES -------------------------*/
@@ -94,16 +94,16 @@ new Vue({
     /*---------- VIEW ALL CITIES -------------------------*/
 
     /*---------- VIEW ALL ACTIVE COUNTRIES ----------------------*/
-    viewAllCountries: async function () {
+    viewAllActiveCountries: async function () {
       // PARAMETERS TO VIEW ALL ACTIVE COUNTRIES
       params = { }; 
       // GET ALL ACTIVE COUNTRIES FROM API CALL
       const result = await actionAPICall(baseUrl, viewAllActiveCountriesEndPoint, params);
       const res = await result.json();
       
-      // IF ALL COUNTRIES ARE RETURNED SUCCESSFULLY
+      // IF ALL ACTIVE COUNTRIES ARE RETURNED SUCCESSFULLY
       if(res.result == 1) {
-        this.countryList = res.data; // STORE THE COUNTRIES RETURNED IN ARRAY
+        this.countryList = res.data; // STORE THE ACTIVE COUNTRIES RETURNED IN ARRAY
       }
     },
     /*---------- VIEW ALL ACTIVE COUNTRIES ----------------------*/
@@ -333,7 +333,7 @@ new Vue({
     },
     /*---------- EMPTY/INVALID FIELD MESSAGE ---------------------*/
 
-    /*----------- HIGHLIGHT ERRORS -----------------------*/
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
     keyUpCityName: function () {  // KEY IS PRESSED UP ON CITY NAME INPUT
       this.validCityName = false;
       this.invalidCityDetails = true;
@@ -347,6 +347,6 @@ new Vue({
       this.invalidCityDetails = true;
     }
 
-    /*----------- HIGHLIGHT ERRORS -----------------------*/
+    /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
   }
 })
