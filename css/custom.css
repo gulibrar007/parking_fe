@@ -5651,3 +5651,33 @@ input:focus {
 .iti {
   width: 100%;
 }
+
+/* password eye icon */
+.password-eye-icon {
+  position: absolute;
+  top: 0;
+  font-size: 2rem;
+  width: 45px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #738793;
+  cursor: pointer;
+}
+
+.password-eye-icon:focus,
+.password-eye-icon:hover {
+  background-color: #f2f2f2;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+}
+
+.password-container {
+  position: relative;
+}
+
+.password_input {
+  padding-left: 3.7em;
+}
