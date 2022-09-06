@@ -19,6 +19,12 @@ const viewCitiesOfSelectedCountryEndPoint = "/get_all_cities_of_country";
 // VIEW ALL ACTIVE ROLES
 const viewAllActiveRolesEndPoint = "/get_active_roles";
 
+// CHECK FOR UNIQUE EMAIL AND MOBILE NUMBER
+const checkUniqueEmailMobileNumberFromSystem = "/check_unique_email_mobile";
+
+// CHECK FOR UNIQUE EMAIL AND MOBILE NUMBER FOR CUSTOMER
+const checkUniqueEmailMobileNumberCustomerFromSystem = "/check_unique_email_mobile_customer";
+
 // CUSTOMER TAB CLICK VARIABLE
 let customerTabClickOnce = false;
 // ERROR MESSAGE FOR INVALID MOBILE NUMBER
@@ -277,48 +283,95 @@ new Vue({
         this.addEmployee(params);
       }
     },
-    addEmployee: async function (params) {
+    addEmployee: async function (params) { // CHECK FOR DUPLICATE EMAIL/ MOBILE NUMBER ON SERVER AND THEN ADD EMPLOYEE
       const addEmployeeModalBtn = document.querySelector('.add-employee-modal-btn');
       
       // DISABLE ADD EMPLOYEE BUTTON
       addEmployeeModalBtn.disabled = true;
 
-      // ADD EMPLOYEE ON SERVER
-      const result = await actionAPICall(baseUrl, addEmployeeInUserEndPoint, params);
-      const res = await result.json();
+      // API PARAMETERS FOR UNIQUE EMAIL
+      let paramsUniqueEmail = {
+        "data": this.employeeEmail
+      }
 
-      // EMPLOYEE ADDED SUCCESSFULLY
-      if(res.result === 'success') {
-        // CLOSE MODAL
-        closeModal('addEmployee');
+      // API PARAMETERS FOR UNIQUE MOBILE NUMBER
+      let paramsUniqueMobileNumber = {
+        "data": this.employeeMobile
+      }
+
+      // CHECK IF ENTERED EMAIL ALREADY EXISTS ON SERVER
+      const resultUniqueEmailCheck = await actionAPICall(baseUrl, checkUniqueEmailMobileNumberFromSystem, paramsUniqueEmail);
+      const resUniqueEmailCheck = await resultUniqueEmailCheck.json();
+
+      // CHECK IF ENTERED MOBILE NUMBER ALREADY EXISTS ON SERVER
+      const resultUniqueMobileNumberCheck = await actionAPICall(baseUrl, checkUniqueEmailMobileNumberFromSystem, paramsUniqueMobileNumber);
+      const resUniqueMobileNumberCheck = await resultUniqueMobileNumberCheck.json();
+
+      // EMAIL ALREADY EXISTS ON SERVER
+      if(resUniqueEmailCheck.result === true) {
+        this.validEmployeeEmail = true;
+        this.invalidEmployeeDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addEmployee, body').animate({ scrollTop: $('#addEmployeeEmail').offset().top }, 800);
+        this.duplicateEmailInSystem();
 
         // ENABLE ADD EMPLOYEE BUTTON
         addEmployeeModalBtn.disabled = false;
-        
-        toastr.success('Employee added successfully');
-        this.viewAllEmployees(); // RELOAD ALL EMPLOYEES VIEW
 
-        // RESET INPUT FIELDS
-        this.employeeName = '';
-        this.employeeEmai = '';
-        this.employeeMobile = '';
-        this.employeeCnic = '';
-        this.selectedEmployeeRole = '';
-        this.selectedEmployeeCountry = '';
-        this.cityList = [];
-        this.selectedEmployeeCity = '';
-        this.employeeAddress = '';
       }
+      // MOBILE NUMBER ALREADY EXISTS ON SERVER
+      else if(resUniqueMobileNumberCheck.result === true) {
+        this.validEmployeeMobile = true;
+        this.invalidEmployeeDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addEmployee, body').animate({ scrollTop: $('#addEmployeeMobile').offset().top }, 800);
+        this.duplicateMobileNumberInSystem();
+
+        // ENABLE ADD EMPLOYEE BUTTON
+        addEmployeeModalBtn.disabled = false;
+
+      }
+      // NO DUPLICATE EMAIL/ MOBILE NUMBER
       else {
-        // CLOSE MODAL
-        closeModal('addEmployee');
+        // ADD EMPLOYEE ON SERVER
+        const result = await actionAPICall(baseUrl, addEmployeeInUserEndPoint, params);
+        const res = await result.json();
 
-        // ENABLE ADD EMPLOYEE BUTTON
-        addEmployeeModalBtn.disabled = false;
+        // EMPLOYEE ADDED SUCCESSFULLY
+        if(res.result === 'success') {
+          // CLOSE MODAL
+          closeModal('addEmployee');
 
-        // ERROR MESSAGE
-        toastr.error('There was an error!');
+          // ENABLE ADD EMPLOYEE BUTTON
+          addEmployeeModalBtn.disabled = false;
+          
+          toastr.success('Employee added successfully');
+          this.viewAllEmployees(); // RELOAD ALL EMPLOYEES VIEW
+
+          // RESET INPUT FIELDS
+          this.employeeName = '';
+          this.employeeEmail = '';
+          this.employeeMobile = '';
+          this.employeeCnic = '';
+          this.selectedEmployeeRole = '';
+          this.selectedEmployeeCountry = '';
+          this.cityList = [];
+          this.selectedEmployeeCity = '';
+          this.employeeAddress = '';
+        }
+        else {
+          // CLOSE MODAL
+          closeModal('addEmployee');
+
+          // ENABLE ADD EMPLOYEE BUTTON
+          addEmployeeModalBtn.disabled = false;
+
+          // ERROR MESSAGE
+          toastr.error('There was an error!');
+        }
       }
+
+      
     },
     /*---------- ADD EMPLOYEE -------------------------------------*/
 
@@ -520,42 +573,88 @@ new Vue({
       // DISABLE ADD CUSTOMER BUTTON
       addCustomerModalBtn.disabled = true;
 
-      // ADD CUSTOMER ON SERVER
-      const result = await actionAPICall(baseUrl, addCustomerInUserEndPoint, params);
-      const res = await result.json();
+      // API PARAMETERS FOR UNIQUE EMAIL
+      let paramsUniqueEmailCustomer = {
+        "data": this.customerEmail
+      }
 
-      // CUSTOMER ADDED SUCCESSFULLY
-      if(res.result === 'success') {
-        // CLOSE MODAL
-        closeModal('addCustomer');
+      // API PARAMETERS FOR UNIQUE MOBILE NUMBER
+      let paramsUniqueMobileNumberCustomer = {
+        "data": this.customerMobile
+      }
+
+      // CHECK IF ENTERED EMAIL ALREADY EXISTS ON SERVER
+      const resultUniqueEmailCheck = await actionAPICall(baseUrl, checkUniqueEmailMobileNumberCustomerFromSystem, paramsUniqueEmailCustomer);
+      const resUniqueEmailCheck = await resultUniqueEmailCheck.json();
+
+      // CHECK IF ENTERED MOBILE NUMBER ALREADY EXISTS ON SERVER
+      const resultUniqueMobileNumberCheck = await actionAPICall(baseUrl, checkUniqueEmailMobileNumberCustomerFromSystem, paramsUniqueMobileNumberCustomer)
+      const resUniqueMobileNumberCheck = await resultUniqueMobileNumberCheck.json();
+
+      // EMAIL ALREADY EXISTS ON SERVER
+      if(resUniqueEmailCheck.result === true) {
+        this.validCustomerEmail = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer, body').animate({ scrollTop: $('#addCustomerEmail').offset().top }, 800);
+        this.duplicateEmailInSystem();
 
         // ENABLE ADD CUSTOMER BUTTON
         addCustomerModalBtn.disabled = false;
-        
-        toastr.success('Customer added successfully');
-        this.viewAllCustomers(); // RELOAD ALL CUSTOMERS VIEW
 
-        // RESET INPUT FIELDS
-        this.customerName = '';
-        this.customerEmail = '',
-        this.customerPassword = '';
-        this.customerMobile = '';
-        this.customerCnic = '';
-        this.selectedCustomerCountry = '';
-        this.cityList = [];
-        this.selectedCustomerCity = '';
-        this.selectedCustomerCity = '';
       }
+      // MOBILE NUMBER ALREADY EXISTS ON SERVER
+      else if(resUniqueMobileNumberCheck.result === true) {
+        this.validCustomerMobile = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer, body').animate({ scrollTop: $('#addCustomerMobile').offset().top }, 800);
+        this.duplicateMobileNumberInSystem();
+
+        // ENABLE ADD CUSTOMER BUTTON
+        addCustomerModalBtn.disabled = false;
+
+      }
+      // NO DUPLICATE EMAIL/ MOBILE NUMBER
       else {
-        // CLOSE MODAL
-        closeModal('addCustomer');
+        // ADD CUSTOMER ON SERVER
+        const result = await actionAPICall(baseUrl, addCustomerInUserEndPoint, params);
+        const res = await result.json();
 
-        // ENABLE ADD CUSTOMER BUTTON
-        addCustomerModalBtn.disabled = false;
+        // CUSTOMER ADDED SUCCESSFULLY
+        if(res.result === 'success') {
+          // CLOSE MODAL
+          closeModal('addCustomer');
 
-        // ERROR MESSAGE
-        toastr.error('There was an error!');
+          // ENABLE ADD CUSTOMER BUTTON
+          addCustomerModalBtn.disabled = false;
+          
+          toastr.success('Customer added successfully');
+          this.viewAllCustomers(); // RELOAD ALL CUSTOMERS VIEW
+
+          // RESET INPUT FIELDS
+          this.customerName = '';
+          this.customerEmail = '',
+          this.customerPassword = '';
+          this.customerMobile = '';
+          this.customerCnic = '';
+          this.selectedCustomerCountry = '';
+          this.cityList = [];
+          this.selectedCustomerCity = '';
+          this.selectedCustomerCity = '';
+        }
+        else {
+          // CLOSE MODAL
+          closeModal('addCustomer');
+
+          // ENABLE ADD CUSTOMER BUTTON
+          addCustomerModalBtn.disabled = false;
+
+          // ERROR MESSAGE
+          toastr.error('There was an error!');
+        }
       }
+      
     },
     /*---------- ADD CUSTOMER -------------------------------------*/
 
@@ -719,6 +818,12 @@ new Vue({
     },
     invalidEmail: function () {
       this.error = 'Email is invalid';
+    },
+    duplicateEmailInSystem: function () {
+      this.error = 'Email already exists in system';
+    },
+    duplicateMobileNumberInSystem: function () {
+      this.error = 'Mobile # already exists in system';
     },
     emptyMobileNumber: function () {
       this.error = 'Mobile # is empty';
