@@ -408,8 +408,12 @@
                   <div class="form-group" id="addCustomerPassword">
                     <label for="customer_password" :class="{inputinvalidField: validCustomerPassword}">Password: <span
                         class="modal-required-input">*</span> </label>
-                    <input type="password" id="customer_password" class="form-control" placeholder="password"
-                      :class="{invalidInput: validCustomerPassword}" v-model="customerPassword" v-on:keyup="keyUpCustomerPassword">
+                    <div class="password-container">
+                      <input type="password" id="customer_password" class="form-control password_input" placeholder="password"
+                        :class="{invalidInput: validCustomerPassword}" v-model="customerPassword" v-on:keyup="keyUpCustomerPassword">
+                      <i class="fa fa-eye password-eye-icon" aria-hidden="true" id="showHidePassword"
+                        onclick="togglePasswordVisibility()"></i>
+                    </div>
                   </div>
                   <!-- Customer Password -->
 
