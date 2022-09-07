@@ -5681,3 +5681,7 @@ input:focus {
 .password_input {
   padding-left: 3.7em;
 }
+
+.text-align-right {
+  text-align: end;
+}
