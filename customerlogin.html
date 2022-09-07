@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Meta, title, CSS, favicons, etc. -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fav-icon -->
+  <link rel="icon" href="./images/fav-icon/hotel-fav-icon.png" type="image/png">
+
+  <title>Hotel MIS | Login</title>
+
+  <!-- Bootstrap core CSS -->
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="fonts/css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/animate.min.css" rel="stylesheet">
+
+  <!-- Custom styling plus plugins -->
+  <link href="css/custom.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/maps/jquery-jvectormap-2.0.3.css" />
+  <link href="css/icheck/flat/green.css" rel="stylesheet" />
+  <link href="css/floatexamples.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="css/login.css">
+
+  <script src="js/assets/jquery.min.js"></script>
+  <script src="js/assets/nprogress.js"></script>
+  <script type="text/javascript" src="js/assets/apexcharts.js"></script>
+
+  <!-- Axios -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- Vue JS -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+  <!-- Vue Session -->
+  <script src="https://cdn.jsdelivr.net/npm/vue-session@1.0.0/index.unpkg.js"></script>
+  <style>
+    .inputinvalidField {
+      color: #f44336;
+    }
+  </style>
+
+</head>
+
+<body class="login-body">
+
+  <div class="login-wrapper" id="loginCustomer" >
+    <div class="login-container" style="display: none;">
+      <div class="login-card">
+        <section>
+          <div>
+            <form>
+              <h1 class="login-h1 text-color">Customer Login</h1>
+              <!-- Error message -->
+              <p style="text-align: center;" :class="{'displayNone':invalidLoginAlert}" id="dangerAlert"
+                class="alert alert-danger text-color-white" v-html="error"></p>
+              <!-- Error message -->
+              
+              <!-- Email -->
+              <div class="form-group">
+                <label for="inputEmail" class="text-color" :class="{inputinvalidField: validEmailLogin}">Email</label>
+                <div class="input-icon input-icon-right">
+                  <input type="email" class="form-control" id="inputEmail" aria-describedby="emailHelp" placeholder="Enter email" v-model="email" v-on:keyup="keyUpEmailLogin">
+                  <i class="fa fa-user fa-lg user-icon"></i>
+                </div>
+              </div>
+              <!-- Email -->
+
+              <!-- Password -->
+              <div class="form-group">
+                <label for="inputPassword" class="text-color" :class="{inputinvalidField: validPasswordLogin}">Password</label>
+                <div class="input-icon input-icon-right">
+                  <input type="password" class="form-control input-password" id="inputPassword" placeholder="Password" v-model="password" v-on:keyup="keyUpPasswordLogin">
+                  <i class="fa fa-lock fa-lg lock-icon"></i>
+                </div>
+
+                <div class="form-group text-align-right">
+                  <!--<button type="button" class="btn btn-sign-up" data-toggle="modal" data-target="#addCustomer">sign up</button>-->
+                  <button type="button" class="btn btn-show-hide-password" onclick="showHidePassword()">show</button>
+                </div>
+              </div>
+              <!-- Password -->
+
+              <!-- Login Button & Loader -->
+              <div class="form-group login-btn-container">
+                <button type="button" class="btn btn-primary login-btn" @click="onClickLoginBtn" :class="{removeBg: removeBgSpinner}">
+                  <span :class="{'displayNone': loginText}">Login</span>
+                  <div id="spinnerId" :class="{'displayNone': loading}">
+                    <div class="spinner-container">
+                      <img src="./images/horizontal-loader.gif" alt="loading data" class="spinner">
+                    </div>
+                  </div>
+                </button>
+              </div>
+              <!-- Login Button & Loader -->
+            </form>
+          </div>
+        
+        </section>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js//assets/bootstrap.min.js"></script>
+
+  <script src="js/vue/common.js"></script>
+  <script src="js/vue/loginCustomer.js"></script>
+
+</body>
+
+</html>
