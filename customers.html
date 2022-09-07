@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Meta, title, CSS, favicons, etc. -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fav-icon -->
+  <link rel="icon" href="./images/fav-icon/hotel-fav-icon.png" type="image/png">
+
+  <title>Hotel MIS | Admin</title>
+
+  <!-- Bootstrap core CSS -->
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="fonts/css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/animate.min.css" rel="stylesheet">
+
+  <!-- Custom styling plus plugins -->
+  <link href="css/custom.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/maps/jquery-jvectormap-2.0.3.css" />
+  <link href="css/icheck/flat/green.css" rel="stylesheet" />
+  <link href="css/floatexamples.css" rel="stylesheet" type="text/css" />
+
+  <!-- International Tel Input -->
+  <link rel="stylesheet" href="js/assets/International Tel/css/intlTelInput.css">
+
+  <!-- Modal styling -->
+  <link rel="stylesheet" href="css/modal.css">
+  <!-- Vue Toastr -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+    integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script src="js/assets/jquery.min.js"></script>
+  <script src="js/assets/nprogress.js"></script>
+  <script type="text/javascript" src="js/assets/apexcharts.js"></script>
+
+  <!-- Axios -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- Vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+  <!-- Vue Session -->
+  <script src="https://cdn.jsdelivr.net/npm/vue-session@1.0.0/index.unpkg.js"></script>
+  <!-- Toastr -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+    integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+
+
+<body class="nav-md">
+
+  <div class="container body">
+
+
+    <div class="main_container">
+      <!-- side bar -->
+      <div class="col-md-3 left_col menu_fixed">
+        <div class="left_col scroll-view">
+
+          <div class="navbar nav_title" style="border: 0;">
+            <a href="index.html" class="site_title"><span>HOTEL MIS</span></a>
+          </div>
+          <div class="clearfix"></div>
+
+          <div id="sideBarComponent">
+            <sidebarcomponents></sidebarcomponents>
+          </div>
+
+        </div>
+      </div>
+      <!-- side bar -->
+
+      <!-- top navigation -->
+      <div class="top_nav" id="topNavComponent">
+        <topnavcomponents></topnavcomponents>
+      </div>
+      <!-- /top navigation -->
+
+      <div id="customersVueApp">
+        <!-- page content -->
+        <div class="right_col" role="main">
+        
+          <!-- customer data-table -->
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <div class="title-flex title-content-space-between">
+                  <h2>List of Customers</h2>
+                  <button type="button" class="btn btn-primary add-btn" data-toggle="modal" data-target="#addCustomer" style="display: none;">
+                    Add New
+                  </button>
+                  
+                </div>
+        
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+
+                <div class="row">
+                  <div>
+                    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                      
+                      <!-- Spinner Starts -->
+                      <div class="horizontal-loader-customer" style="display: block;">
+                        <div class="spinner-container">
+                          <img src="./images/horizontal-loader.gif" alt="loading data" class="spinner" style="width: 90px;">
+                        </div>
+                      </div>
+                      <!-- Spinner Ends -->
+                      
+                      <!-- Customer Table -->
+                      <div class="col-md-12 table-data-table-customer" style="display: none;">
+                        <table class="table table-responsive" id="data_table_customer">
+                          <thead>
+                            <tr>
+                              <th>Customer Name</th>
+                              <th>Address</th>
+                              <th>City</th>
+                              <th>Country</th>
+                              <th>Status</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr v-for="data in customerList">
+                              <td>{{ data.name }}</td>
+                              <td>{{ data.address }}</td>
+                              <td>{{ data.city_name }}</td>
+                              <td>{{ data.country_name }}</td>
+                              <td>{{ data.status }}</td>
+                              <td>
+                                <div class="dropdown">
+                                  <a href="javascript:;" class="dropdown-toggle dropdown-actions-class" data-toggle="dropdown" role="button"
+                                    aria-expanded="false"><i class="fa fa-ellipsis-h fa-lg three-dots"></i></a>
+                                  <ul class="dropdown-menu dropdown-actions-ul dropdown-item" role="menu">
+                      
+                                    <!-- Status -->
+                                    <li class="dropdown-list-item">
+                                      <button type="button" class="dropdown-button active_inactive_status_button" @click="onClickUpdateStatus"
+                                        :data-id="data.id" :data-current-status="data.status">
+                                      </button>
+                                      <!-- Status -->
+                                    </li>
+                                  </ul>
+                                </div>
+                      
+                              </td>
+                      
+                            </tr>
+                          </tbody>
+                      
+                        </table>
+                      </div>
+                      <!-- Customer Table -->
+                      
+                    </div>
+                  </div>
+        
+                  
+        
+                </div>
+        
+              </div>
+            </div>
+        
+          </div>
+          <!-- customer data-table -->
+        
+          <!-- footer content -->
+        
+          <footer>
+            <div class="copyright-info">
+              <!--<p class="pull-right">Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>  
+                    </p>-->
+            </div>
+            <div class="clearfix"></div>
+          </footer>
+          <!-- /footer content -->
+        </div>
+        <!-- /page content -->
+        
+        <!-- modals -->
+
+        <!-- add customer -->
+        <div class="modal fade" id="addCustomer" role="dialog">
+          <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Customer</h4>
+              </div>
+              <div class="modal-body">
+                <!-- Error message -->
+                <p style="text-align: center;" :class="{'displayNone':invalidCustomerDetails}" id="dangerAlert"
+                  class="alert alert-danger text-color-white" v-html="error"></p>
+                <!-- Error message -->
+                <form>
+        
+                  <!-- Customer Name -->
+                  <div class="form-group" id="addCustomerName">
+                    <label for="customer_name" :class="{inputinvalidField: validCustomerName}">Customer Name: <span
+                        class="modal-required-input">*</span></label>
+                    <input type="text" id="customer_name" class="form-control" placeholder="Ali Hamza"
+                      :class="{invalidInput: validCustomerName}" v-model="customerName" v-on:keyup="keyUpCustomerName">
+                  </div>
+                  <!-- Customer Name -->
+        
+                  <!-- Customer E-mail -->
+                  <div class="form-group" id="addCustomerEmail">
+                    <label for="customer_email" :class="{inputinvalidField: validCustomerEmail}">Email: <span
+                        class="modal-required-input">*</span> </label>
+                    <input type="email" id="customer_email" class="form-control" placeholder="abc@gmail.com"
+                      :class="{invalidInput: validCustomerEmail}" v-model="customerEmail" v-on:keyup="keyUpCustomerEmail">
+                  </div>
+                  <!-- Customer E-mail -->
+        
+                  <!-- Customer Password -->
+                  <div class="form-group" id="addCustomerPassword">
+                    <label for="customer_password" :class="{inputinvalidField: validCustomerPassword}">Password: <span
+                        class="modal-required-input">*</span> </label>
+                    <div class="password-container">
+                      <input type="password" id="customer_password" class="form-control password_input" placeholder="password"
+                        :class="{invalidInput: validCustomerPassword}" v-model="customerPassword" v-on:keyup="keyUpCustomerPassword">
+                      <i class="fa fa-eye password-eye-icon" aria-hidden="true" id="showHidePassword"
+                        onclick="togglePasswordVisibility()"></i>
+                    </div>
+                  </div>
+                  <!-- Customer Password -->
+
+                  <!-- Customer Mobile -->
+                  <div class="form-group" id="addCustomerMobile">
+                    <label for="customer_mobile" :class="{inputinvalidField: validCustomerMobile}">Mobile #: <span
+                        class="modal-required-input">*</span> </label>
+                    <input type="tel" id="customer_mobile" class="form-control" placeholder="03331234567"
+                      :class="{invalidInput: validCustomerMobile}" v-model="customerMobile" v-on:keyup="keyUpCustomerMobile">
+                  </div>
+                  <!-- Customer Mobile -->
+        
+                  <!-- Customer CNIC -->
+                  <div class="form-group" id="addCustomerCnic">
+                    <label for="employee_email" :class="{inputinvalidField: validCustomerCnic}">CNIC: <span
+                        class="modal-required-input">*</span> </label>
+                    <input type="number" id="customer_cnic" class="form-control" placeholder="3720112345678"
+                      :class="{invalidInput: validCustomerCnic}" v-model="customerCnic" v-on:keyup="keyUpCustomerCnic">
+                  </div>
+                  <!-- Customer CNIC -->
+        
+                  <!-- Customer Country -->
+                  <div class="form-group" id="addCustomerCountry">
+                    <label for="customer_country" :class="{inputinvalidField: validCustomerCountry}">Country: <span
+                        class="modal-required-input">*</span> </label>
+                    <select id="customer_country" class="form-control" v-model="selectedCustomerCountry"
+                      :class="{invalidInput: validCustomerCountry}" @change="viewCitiesOfSelectedCountry"
+                      @focus="onFocusCustomerCountry">
+                      <option value="" disabled selected>Select Country</option>
+                      <option v-for="data in countryList" :value="data.id">
+                        {{ data.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- Customer Country -->
+        
+                  <!-- Customer Cities Of Selected Country -->
+                  <div class="form-group" id="addCustomerCity">
+                    <label for="customer_city" :class="{inputinvalidField: validCustomerCity}">City: <span
+                        class="modal-required-input">*</span> </label>
+                    <select id="customer_city" class="form-control" v-model="selectedCustomerCity"
+                      :class="{invalidInput: validCustomerCity}" @focus="onFocusCustomerCity">
+                      <option value="" disabled selected>Select City</option>
+                      <option v-for="data in cityList" :value="data.id">
+                        {{ data.name }}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- Customer Cities Of Selected Country -->
+        
+                  <!-- Customer Address -->
+                  <div class="form-group" id="addCustomerAddress">
+                    <label for="customer_address" :class="{inputinvalidField: validCustomerAddress}">Address: <span
+                        class="modal-required-input">*</span></label>
+                    <textarea id="customer_address" rows="2" class="form-control resize-vertical-only" placeholder="1020 Street"
+                      :class="{invalidInput: validCustomerAddress}" v-model="customerAddress"
+                      v-on:keyup="keyUpCustomerAddress"></textarea>
+                  </div>
+                  <!-- Customer Address -->
+        
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary add-customer-modal-btn" @click="onClickAddCustomerBtn">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+        <!-- add customer -->
+        
+        <!-- modals -->
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="custom_notifications" class="custom-notifications dsp_none">
+    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+    </ul>
+    <div class="clearfix"></div>
+    <div id="notif-group" class="tabbed_notifications"></div>
+  </div>
+
+  <script src="js/assets/bootstrap.min.js"></script>
+  
+  <script src="js/assets/nicescroll/jquery.nicescroll.min.js"></script>
+
+  <script src="js/assets/custom.js"></script>
+
+  <!-- flot js -->
+  <!--[if lte IE 8]><script type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.js"></script>
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.pie.js"></script>
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.orderBars.js"></script>
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.time.min.js"></script>
+  <script type="text/javascript" src="js/assets/flot/date.js"></script>
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.spline.js"></script>
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.stack.js"></script>
+  <script type="text/javascript" src="js/assets/flot/curvedLines.js"></script>
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.resize.js"></script>
+
+  <!-- worldmap -->
+  <script type="text/javascript" src="js/assets/maps/jquery-jvectormap-2.0.3.min.js"></script>
+  <script type="text/javascript" src="js/assets/maps/gdp-data.js"></script>
+  <script type="text/javascript" src="js/assets/maps/jquery-jvectormap-world-mill-en.js"></script>
+  <script type="text/javascript" src="js/assets/maps/jquery-jvectormap-us-aea-en.js"></script>
+  <!-- pace -->
+  <script src="js/assets/pace/pace.min.js"></script>
+  
+  <!-- skycons -->
+  <script src="js/assets/skycons/skycons.min.js"></script>
+  
+  <!-- /datepicker -->
+  <!-- /footer content -->
+
+  <!-- International Tel Input -->
+  <script src="js/assets/International Tel/js/intlTelInput.js"></script>
+  <script src="js/assets/International Tel/js/intlTelInput-jquery.min.js"></script>
+
+  <!-- JQuery data-table -->
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  <!-- Common -->
+  <script src="js/vue/common.js"></script>
+  <!-- Common System Configuration Functions -->
+  <script src="js/vue/system-configuration/common/common-actions.js"></script>
+  <!-- Dynamic Sidebar -->
+  <script src="js/vue/components/sidebar.js"></script>
+  <!-- Dynamic Topnav -->
+  <script src="js/vue/components/topnav.js"></script>
+
+  <!-- Customer -->
+  <script src="js/vue/system-configuration/customers.js"></script>
+
+</body>
+
+</html>
