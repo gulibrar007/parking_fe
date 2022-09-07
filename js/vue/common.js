@@ -44,7 +44,7 @@ function actionAPICall (baseUrl, endPoint, params) {
   const vueSession = JSON.parse(sessionStorage.getItem("vue-session-key"));
   
   // IF THE LOADED PAGE IS LOGIN PAGE, STAY THERE
-  if(window.location.pathname == '/' || window.location.pathname == '/index.html') {
+  if(window.location.pathname == '/' || window.location.pathname == '/index.html' || window.location.pathname == '/customerlogin.html') {
     //console.log('login page')
   }
   else { // IF PAGE IS OTHER THAN LOGIN PAGE
@@ -115,3 +115,27 @@ function mobileNumberVerification (mobileInput) {
   input.addEventListener('keyup', reset); 
 }
 /*--------- MOBILE NUMBER VERIFICATION --------*/
+
+/*--------- TOGGLE PASSWORD VISIBILITY --------*/
+showHidePassword = () => {
+  // GET SHOW/ HIDE PASSWORD BUTTON
+  const showHidePasswordBtn = document.querySelector('.btn-show-hide-password');
+  // INPUT PASSWORD
+  const passwordInput = document.querySelector('.input-password');
+
+  let type;
+  // CHECK CURRENT TYPE OF INPUT, PASSWORD OR TEXT
+  if( passwordInput.getAttribute("type") === "password") {
+    type = "text";
+    showHidePasswordBtn.textContent = 'hide';
+  }
+  else {
+    type = "password";
+    showHidePasswordBtn.textContent = 'show';
+  }
+  
+  // SET THE INPUT TYPE TO OPPOSITE TO CURRENT ONE
+  passwordInput.setAttribute("type", type);
+}
+/*--------- TOGGLE PASSWORD VISIBILITY --------*/
+
