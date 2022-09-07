@@ -72,8 +72,11 @@
               <div class="form-group">
                 <label for="inputPassword" class="text-color" :class="{inputinvalidField: validPasswordLogin}">Password</label>
                 <div class="input-icon input-icon-right">
-                  <input type="password" class="form-control" id="inputPassword" placeholder="Password" v-model="password" v-on:keyup="keyUpPasswordLogin">
+                  <input type="password" class="form-control input-password" id="inputPassword" placeholder="Password" v-model="password" v-on:keyup="keyUpPasswordLogin">
                   <i class="fa fa-lock fa-lg lock-icon"></i>
+                </div>
+                <div class="form-group text-align-right">
+                  <button type="button" class="btn btn-show-hide-password" onclick="showHidePassword()">show</button>
                 </div>
               </div>
               <!-- Password -->
