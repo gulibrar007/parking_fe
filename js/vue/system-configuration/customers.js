@@ -279,7 +279,7 @@ new Vue({
       // NO DUPLICATE EMAIL/ MOBILE NUMBER
       else {
         // ADD CUSTOMER ON SERVER
-        const result = await actionAPICall(baseUrl, addCustomerInUserEndPoint, params);
+        const result = await action(baseUrl, addCustomerInUserEndPoint, params);
         const res = await result.json();
 
         // CUSTOMER ADDED SUCCESSFULLY
