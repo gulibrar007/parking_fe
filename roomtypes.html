@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Meta, title, CSS, favicons, etc. -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Fav-icon -->
+  <link rel="icon" href="./images/fav-icon/hotel-fav-icon.png" type="image/png">
+
+  <title>Room Types</title>
+
+  <!-- Bootstrap core CSS -->
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="fonts/css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/animate.min.css" rel="stylesheet">
+
+  <!-- Custom styling plus plugins -->
+  <link href="css/custom.css" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="css/maps/jquery-jvectormap-2.0.3.css" />
+  <link href="css/icheck/flat/green.css" rel="stylesheet" />
+  <link href="css/floatexamples.css" rel="stylesheet" type="text/css" />
+  <!-- Modal styling -->
+  <link rel="stylesheet" href="css/modal.css">
+  <!-- Vue Toastr -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css"
+    integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script src="js/assets/jquery.min.js"></script>
+  <script src="js/assets/nprogress.js"></script>
+  <script type="text/javascript" src="js/assets/apexcharts.js"></script>
+
+  <!-- Axios -->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- Vue -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+  <!-- Vue Session -->
+  <script src="https://cdn.jsdelivr.net/npm/vue-session@1.0.0/index.unpkg.js"></script>
+  <!-- Toastr -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+    integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+
+
+<body class="nav-md">
+
+  <div class="container body">
+
+
+    <div class="main_container">
+      <!-- side bar -->
+      <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+
+          <div class="navbar nav_title" style="border: 0;">
+            <a href="index.html" class="site_title"><span>HOTEL MIS</span></a>
+          </div>
+          <div class="clearfix"></div>
+
+          <div id="sideBarComponent">
+            <sidebarcomponents></sidebarcomponents>
+          </div>
+
+        </div>
+      </div>
+      <!-- side bar -->
+
+      <!-- top navigation -->
+      <div class="top_nav" id="topNavComponent">
+        <topnavcomponents></topnavcomponents>
+      </div>
+      <!-- /top navigation -->
+
+      <div id="roomTypeVueApp">
+        <!-- page content -->
+        <div class="right_col" role="main">
+        
+          <!-- floor data-table -->
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <div class="title-flex title-content-space-between">
+                  <h2>List of Room Types</h2>
+                  <button type="button" class="btn btn-primary add-btn" data-toggle="modal" data-target="#addRoomType" style="display: none;">
+                    Add New
+                  </button>
+                </div>
+        
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+
+                <div class="row">
+        
+                  <!-- Spinner Starts -->
+                  <div class="horizontal-loader" style="display: block;">
+                    <div class="spinner-container">
+                      <img src="./images/horizontal-loader.gif" alt="loading data" class="spinner" style="width: 90px;">
+                    </div>
+                  </div>
+                  <!-- Spinner Ends -->
+
+                  <!-- Room Types Table -->
+                  <div class="col-md-12 table-data-table" style="display: none;">
+                    <table class="table table-responsive" id="data_table_room_types">
+                      <thead>
+                        <tr>
+                          <th>Room Type Name</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="data in roomTypeList">
+                          <td>{{ data.name }}</td>
+                          <td>{{ data.status }}</td>
+                          <td>
+                            <div class="dropdown">
+                              <a href="javascript:;" class="dropdown-toggle dropdown-actions-class" data-toggle="dropdown" role="button"
+                                aria-expanded="false"><i class="fa fa-ellipsis-h fa-lg three-dots"></i></a>
+                              <ul class="dropdown-menu dropdown-actions-ul dropdown-item" role="menu">
+                                
+                                <li class="dropdown-list-item">
+                                  <button type="button" class="dropdown-button" data-toggle="modal" data-target="#updateRoomType" @click="onClickOpenUpdateRoomTypeModal" :data-room-type-id="data.id">
+                                    Update
+                                  </button>
+                                </li>
+                                <li class="dropdown-list-item">
+                                  <button type="button" class="dropdown-button active_inactive_status_button" @click="onClickUpdateStatus" :data-room-type-id="data.id" :data-current-status="data.status">
+                                  </button>
+                                </li>
+                              </ul>
+                            </div>
+                  
+                          </td>
+                  
+                        </tr>
+                      </tbody>
+                  
+                    </table>
+                  </div>
+                  <!-- Room Types Table -->
+        
+                </div>
+        
+              </div>
+            </div>
+        
+        
+        
+        
+          </div>
+          <!-- room types data-table -->
+        
+          <!-- footer content -->
+        
+          <footer>
+            <div class="copyright-info">
+              <!--<p class="pull-right">Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>  
+                    </p>-->
+            </div>
+            <div class="clearfix"></div>
+          </footer>
+          <!-- /footer content -->
+        </div>
+        <!-- /page content -->
+        
+        <!-- modals -->
+        <!-- add room types -->
+        <div class="modal fade" id="addRoomType" role="dialog">
+          <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add Room Type</h4>
+              </div>
+              <div class="modal-body">
+                <!-- Error message -->
+                <p style="text-align: center;" :class="{'displayNone':invalidRoomTypeDetails}" id="dangerAlert"
+                  class="alert alert-danger text-color-white" v-html="error"></p>
+                <!-- Error message -->
+                <form>
+
+                  <!-- Room Type -->
+                  <div class="form-group">
+                    <label for="room_type" :class="{inputinvalidField: validRoomType}">Room Type: <span
+                        class="modal-required-input">*</span></label>
+                    <input type="text" id="room_type" class="form-control" placeholder="Standard"
+                      :class="{invalidInput: validRoomType}" v-model="roomTypeName" v-on:keyup="keyUpRoomType">
+                  </div>
+                  <!-- Room Type -->
+
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary add-room-type-modal-btn" @click="onClickAddBtn">Add</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+        <!-- add room types -->
+        <!-- update room types -->
+        <div class="modal fade" id="updateRoomType" role="dialog">
+          <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Room Type</h4>
+              </div>
+              <div class="modal-body">
+                <!-- Error message -->
+                <p style="text-align: center;" :class="{'displayNone':invalidRoomTypeDetails}" id="dangerAlert"
+                  class="alert alert-danger text-color-white" v-html="error"></p>
+                <!-- Error message -->
+                <form>
+
+                  <!-- Room Type -->
+                  <div class="form-group">
+                    <label for="room_type" :class="{inputinvalidField: validRoomType}">Room Type: <span
+                        class="modal-required-input">*</span></label>
+                    <input type="text" id="room_type" class="form-control" placeholder="Standard"
+                      :class="{invalidInput: validRoomType}" v-model="roomTypeName" v-on:keyup="keyUpRoomType">
+                  </div>
+                  <!-- Room Type -->
+
+                  <!-- Room Type Status -->
+                  <div class="form-group">
+                    <label for="room_type_status" :class="{inputinvalidField: validRoomTypeStatus}">Status:</label>
+                    <!-- Options are inserted when room type table is loaded -->
+                    <select id="room_type_status" class="form-control select-status" v-model="roomTypeStatus"></select>
+                  </div>
+                  <!-- Room Type Status -->
+
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary update-room-type-modal-btn" @click="onClickUpdateBtn">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+        <!-- update room type -->
+        <!-- modals -->
+      </div>
+
+    </div>
+
+  </div>
+
+  <div id="custom_notifications" class="custom-notifications dsp_none">
+    <ul class="list-unstyled notifications clearfix" data-tabbed_notifications="notif-group">
+    </ul>
+    <div class="clearfix"></div>
+    <div id="notif-group" class="tabbed_notifications"></div>
+  </div>
+
+  <script src="js/assets/bootstrap.min.js"></script>
+  
+  <script src="js/assets/nicescroll/jquery.nicescroll.min.js"></script>
+
+  <script src="js/assets/custom.js"></script>
+
+  <!-- flot js -->
+  <!--[if lte IE 8]><script type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.js"></script>
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.pie.js"></script>
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.orderBars.js"></script>
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.time.min.js"></script>
+  <script type="text/javascript" src="js/assets/flot/date.js"></script>
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.spline.js"></script>
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.stack.js"></script>
+  <script type="text/javascript" src="js/assets/flot/curvedLines.js"></script>
+  <script type="text/javascript" src="js/assets/flot/jquery.flot.resize.js"></script>
+
+  <!-- worldmap -->
+  <script type="text/javascript" src="js/assets/maps/jquery-jvectormap-2.0.3.min.js"></script>
+  <script type="text/javascript" src="js/assets/maps/gdp-data.js"></script>
+  <script type="text/javascript" src="js/assets/maps/jquery-jvectormap-world-mill-en.js"></script>
+  <script type="text/javascript" src="js/assets/maps/jquery-jvectormap-us-aea-en.js"></script>
+  <!-- pace -->
+  <script src="js/assets/pace/pace.min.js"></script>
+  
+  <!-- skycons -->
+  <script src="js/assets/skycons/skycons.min.js"></script>
+  
+  <!-- /datepicker -->
+  <!-- /footer content -->
+
+  <!-- JQuery data-table -->
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  <!-- Common -->
+  <script src="js/vue/common.js"></script>
+  <!-- Common System Configuration Functions -->
+  <script src="js/vue/system-configuration/common/common-actions.js"></script>
+  <!-- Dynamic Sidebar -->
+  <script src="js/vue/components/sidebar.js"></script>
+  <!-- Dynamic Topnav -->
+  <script src="js/vue/components/topnav.js"></script>
+
+  <!-- Room Types -->
+  <script src="js/vue/system-configuration/roomtypes.js"></script>
+
+</body>
+
+</html>
