@@ -33,23 +33,6 @@ body.addEventListener("keypress", function(event) {
   }
 });
 
-// TOGGLE PASSWORD VISIBILITY
-togglePasswordVisibility = () => {
-  // PASSWORD EYE ICON
-  const passwordEyeIcon = document.querySelector('#showHidePassword');
-  // PASSWORD INPUT
-  const passwordInput = document.querySelector('#customer_password');
-
-  // TOGGLE ICON SIMPLE EYE AND EYE WITH DIAGONAL SLASH
-  passwordEyeIcon.classList.toggle("fa-eye-slash");
-
-  // CHECK CURRENT TYPE OF INPUT, PASSWORD OR TEXT
-  const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
-  
-  // SET THE INPUT TYPE TO OPPOSITE TO CURRENT ONE
-  passwordInput.setAttribute("type", type);
-}
-
 new Vue({
   el: '#loginCustomer',
   data: {
@@ -325,11 +308,11 @@ new Vue({
       }
 
       // CHECK IF ENTERED EMAIL ALREADY EXISTS ON SERVER
-      const resultUniqueEmailCheck = await actionAPICall(baseUrl, checkUniqueEmailMobileNumberCustomerFromSystem, paramsUniqueEmailCustomer);
+      const resultUniqueEmailCheck = await action(baseUrl, checkUniqueEmailMobileNumberCustomerFromSystem, paramsUniqueEmailCustomer);
       const resUniqueEmailCheck = await resultUniqueEmailCheck.json();
 
       // CHECK IF ENTERED MOBILE NUMBER ALREADY EXISTS ON SERVER
-      const resultUniqueMobileNumberCheck = await actionAPICall(baseUrl, checkUniqueEmailMobileNumberCustomerFromSystem, paramsUniqueMobileNumberCustomer)
+      const resultUniqueMobileNumberCheck = await action(baseUrl, checkUniqueEmailMobileNumberCustomerFromSystem, paramsUniqueMobileNumberCustomer)
       const resUniqueMobileNumberCheck = await resultUniqueMobileNumberCheck.json();
 
       // EMAIL ALREADY EXISTS ON SERVER
