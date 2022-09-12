@@ -33,3 +33,23 @@ function activeInactiveModalSelectOptions () {
   `;
 }
 /*--------- ACTIVE INACTIVE MODAL SELECT OPTIONS ------------------------------------*/
+
+/*--------- TOGGLE PASSWORD VISIBILITY ----------------------------------------------*/
+// TOGGLE PASSWORD VISIBILITY
+togglePasswordVisibility = () => {
+  // PASSWORD EYE ICON
+  const passwordEyeIcon = document.querySelector('#showHidePassword');
+  // PASSWORD INPUT
+  const passwordInput = document.querySelector('#customer_password');
+
+  // TOGGLE ICON SIMPLE EYE AND EYE WITH DIAGONAL SLASH
+  passwordEyeIcon.classList.toggle("fa-eye-slash");
+
+  // CHECK CURRENT TYPE OF INPUT, PASSWORD OR TEXT
+  const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+  
+  // SET THE INPUT TYPE TO OPPOSITE TO CURRENT ONE
+  passwordInput.setAttribute("type", type);
+}
+/*--------- TOGGLE PASSWORD VISIBILITY ----------------------------------------------*/
+
