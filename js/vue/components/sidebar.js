@@ -46,6 +46,9 @@ Vue.component('sidebarcomponents',{
                     <a href="floor.html">Floors</a>
                   </li>
                   <li>
+                    <a href="roomtypes.html">Room Types</a>
+                  </li>
+                  <li>
                     <a href="roles.html">Roles</a>
                   </li>
                   <li>
