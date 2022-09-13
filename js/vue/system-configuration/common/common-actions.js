@@ -36,12 +36,14 @@ function activeInactiveModalSelectOptions () {
 
 /*--------- TOGGLE PASSWORD VISIBILITY ----------------------------------------------*/
 // TOGGLE PASSWORD VISIBILITY
-togglePasswordVisibility = () => {
+togglePasswordVisibility = (e) => {
+  
   // PASSWORD EYE ICON
-  const passwordEyeIcon = document.querySelector('#showHidePassword');
+  const passwordEyeIcon = e.currentTarget;
+  
   // PASSWORD INPUT
-  const passwordInput = document.querySelector('#customer_password');
-
+  const passwordInput = e.currentTarget.parentElement.children[0];
+  
   // TOGGLE ICON SIMPLE EYE AND EYE WITH DIAGONAL SLASH
   passwordEyeIcon.classList.toggle("fa-eye-slash");
 
