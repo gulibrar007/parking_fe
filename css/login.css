@@ -81,10 +81,14 @@
 }
 
 /* password eye icon styling */
-.btn-show-hide-password,
-.btn-sign-up {
+
+.btn-show-hide-password {
   background: transparent;
   padding: 0;
+}
+
+.btn-show-hide-password,
+.btn-sign-up {
   text-transform: uppercase;
   font-weight: 500;
   font-size: 12px;
