@@ -95,7 +95,7 @@
               <div :class="{'displayNone': removeloginBtns}">
                 <div class="form-group login-btn-container flex-space-between">
                   <button type="button" class="btn btn-primary login-btn" @click="onClickLoginBtn" data-login-type="customer" style="margin-right: 1em;">
-                    <span>Customer Login</span>
+                    <span>Guest Login</span>
                   </button>
                   <button type="button" class="btn btn-primary login-btn" @click="onClickLoginBtn" data-login-type="employee">
                     <span>Employee Login</span>
@@ -132,7 +132,7 @@
                 <div class="row">
                   <!-- Customer Name -->
                   <div class="form-group col-md-12" id="addCustomerName">
-                    <label for="customer_name" :class="{inputinvalidField: validCustomerName}">Customer Name: <span
+                    <label for="customer_name" :class="{inputinvalidField: validCustomerName}">Guest Name: <span
                         class="modal-required-input">*</span></label>
                     <input type="text" id="customer_name" class="form-control" placeholder="Ali Hamza"
                       :class="{invalidInput: validCustomerName}" v-model="customerName" v-on:keyup="keyUpCustomerName">
