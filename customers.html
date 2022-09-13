@@ -64,7 +64,7 @@
         <div class="left_col scroll-view">
 
           <div class="navbar nav_title" style="border: 0;">
-            <a href="index.html" class="site_title"><span>HOTEL MIS</span></a>
+            <a href="dashboard.html" class="site_title"><span>HOTEL MIS</span></a>
           </div>
           <div class="clearfix"></div>
 
@@ -230,7 +230,7 @@
                       <input type="password" id="customer_password" class="form-control password_input" placeholder="password"
                         :class="{invalidInput: validCustomerPassword}" v-model="customerPassword" v-on:keyup="keyUpCustomerPassword">
                       <i class="fa fa-eye password-eye-icon" aria-hidden="true" id="showHidePassword"
-                        onclick="togglePasswordVisibility()"></i>
+                        onclick="togglePasswordVisibility(event)"></i>
                     </div>
                   </div>
                   <!-- Customer Password -->
