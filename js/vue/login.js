@@ -64,6 +64,9 @@ new Vue({
     customerCnic: '',
     validCustomerPassword: false,
     customerPassword: '',
+    validCustomerReEnterPassword: false,
+    customerReEnterPassword: '',
+    passwordsMatch: false,
     validCustomerCountry: false,
     selectedCustomerCountry: '',
     validCustomerCity: false,
@@ -231,6 +234,20 @@ new Vue({
         $('#addCustomer, body').animate({ scrollTop: $('#addCustomerPassword').offset().top }, 800);
         this.emptyCustomerPassword();
       }
+      else if(this.customerReEnterPassword === '') {
+        this.validCustomerReEnterPassword = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer, body').animate({ scrollTop: $('#addCustomerReEnterPassword').offset().top }, 800);
+        this.emptyCustomerReEnterPassword();
+      }
+      else if(this.customerReEnterPassword !== this.customerPassword) {
+        this.validCustomerReEnterPassword = true;
+        this.invalidCustomerDetails = false;
+        // SCROLL TO TOP OF MODAL
+        $('#addCustomer, body').animate({ scrollTop: $('#addCustomerReEnterPassword').offset().top }, 800);
+        this.notSameCustomerPassword();
+      }
       else if(this.customerMobile === '') { // EMPTY MOBILE NUMBER
         this.validCustomerMobile = true;
         this.invalidCustomerDetails = false;
@@ -395,6 +412,12 @@ new Vue({
     emptyCustomerPassword: function () {
       this.error = 'Password is empty';
     },
+    emptyCustomerReEnterPassword: function () {
+      this.error = 'Re-entered password is empty';
+    },
+    notSameCustomerPassword: function () {
+      this.error = 'Re-entered password is not same as original password';
+    },
     emptyEmail: function () {
       this.error = 'Email is empty';
     },
@@ -450,6 +473,17 @@ new Vue({
     keyUpCustomerPassword: function () { // KEY IS PRESSED UP ON CUSTOMER PASSWORD INPUT
       this.validCustomerPassword = false;
       this.invalidCustomerDetails = true;
+    },
+    keyUpCustomerReEnterPassword: function () { // GIVE ERROR IF RE-ENTERED PASSWORD NOT SAME AS PASSWORD
+      this.invalidCustomerDetails = true;
+      if(this.customerReEnterPassword !== this.customerPassword) { // PASSWORDS NOT SAME
+        this.validCustomerReEnterPassword = true;
+        document.querySelector('#re-enter_customer_password').style.border = '2px solid #f44336';
+      }
+      else if(this.customerReEnterPassword === this.customerPassword) { // PASSWORDS SAME
+        this.validCustomerReEnterPassword = false;
+        document.querySelector('#re-enter_customer_password').style.border = '1px solid #69e34e';
+      }
     },
     keyUpCustomerAddress: function () { // KEY IS PRESSED UP ON CUSTOMER ADDRESS INPUT
       this.validCustomerAddress = false;

@@ -162,10 +162,22 @@
                         placeholder="password" :class="{invalidInput: validCustomerPassword}" v-model="customerPassword"
                         v-on:keyup="keyUpCustomerPassword">
                       <i class="fa fa-eye password-eye-icon" aria-hidden="true" id="showHidePassword"
-                        onclick="togglePasswordVisibility()"></i>
+                        onclick="togglePasswordVisibility(event)"></i>
                     </div>
                   </div>
                   <!-- Customer Password -->
+
+                  <!-- Customer Re-enter Password -->
+                  <div class="form-group col-md-6" id="addCustomerReEnterPassword">
+                    <label for="re-enter_customer_password" :class="{inputinvalidField: validCustomerReEnterPassword}">Re-enter Password: <span
+                        class="modal-required-input">*</span> </label>
+                    <div class="password-container">
+                      <input type="password" id="re-enter_customer_password" class="form-control password_input" placeholder="Re-enter password" :class="{invalidInput: validCustomerReEnterPassword}" v-model="customerReEnterPassword" v-on:keyup="keyUpCustomerReEnterPassword">
+                      <i class="fa fa-eye password-eye-icon" aria-hidden="true" id="showHideReEnterPassword"
+                        onclick="togglePasswordVisibility(event)"></i>
+                    </div>
+                  </div>
+                  <!-- Customer Re-enter Password -->
     
                   <!-- Customer Mobile -->
                   <div class="form-group col-md-6" id="addCustomerMobile">
@@ -177,17 +189,17 @@
                   </div>
                   <!-- Customer Mobile -->
     
-                  <!-- Customer CNIC -->
+                  <!-- Customer CNIC/ Passport -->
                   <div class="form-group col-md-6" id="addCustomerCnic">
                     <label for="employee_email" :class="{inputinvalidField: validCustomerCnic}">CNIC: <span
                         class="modal-required-input">*</span> </label>
                     <input type="number" id="customer_cnic" class="form-control" placeholder="3720112345678"
                       :class="{invalidInput: validCustomerCnic}" v-model="customerCnic" v-on:keyup="keyUpCustomerCnic">
                   </div>
-                  <!-- Customer CNIC -->
+                  <!-- Customer CNIC/ Passport -->
     
                   <!-- Customer Country -->
-                  <div class="form-group col-md-12" id="addCustomerCountry">
+                  <div class="form-group col-md-6" id="addCustomerCountry">
                     <label for="customer_country" :class="{inputinvalidField: validCustomerCountry}">Country: <span
                         class="modal-required-input">*</span> </label>
                     <select id="customer_country" class="form-control" v-model="selectedCustomerCountry"
@@ -202,7 +214,7 @@
                   <!-- Customer Country -->
     
                   <!-- Customer Cities Of Selected Country -->
-                  <div class="form-group col-md-12" id="addCustomerCity">
+                  <div class="form-group col-md-6" id="addCustomerCity">
                     <label for="customer_city" :class="{inputinvalidField: validCustomerCity}">City: <span
                         class="modal-required-input">*</span> </label>
                     <select id="customer_city" class="form-control" v-model="selectedCustomerCity"
