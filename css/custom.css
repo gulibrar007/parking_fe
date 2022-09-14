@@ -5692,3 +5692,11 @@ input:focus {
 .text-align-right {
   text-align: end;
 }
+
+/* custom radio buttons styling */
+.btn-default.active {
+  color: #fff;
+  background: #73879C;
+  border-color: #adadad;
+}
+/* custom radio buttons styling */
