@@ -113,7 +113,9 @@
                       <thead>
                         <tr>
                           <th>Country Name</th>
+                          <th>Name in Native</th>
                           <th>Short Code</th>
+                          <th>Dialing Code</th>
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
@@ -121,7 +123,9 @@
                       <tbody>
                         <tr v-for="data in countryList">
                           <td>{{ data.name }}</td>
+                          <td>{{ data.name_native }}</td>
                           <td>{{ data.short_code }}</td>
+                          <td>{{ data.country_dialing_code }}</td>
                           <td>{{ data.status }}</td>
                           <td>
                             <div class="dropdown">
@@ -196,6 +200,27 @@
                       :class="{invalidInput: validCountryName}" v-model="countryName" v-on:keyup="keyUpCountryName">
                   </div>
                   <!-- Country Name -->
+
+                  <!-- Native Language -->
+                  <div class="form-group">
+                    <label for="native_language" :class="{inputinvalidField: validNativeLanguage}">Native Language: <span
+                        class="modal-required-input">*</span></label>
+                    <select class="form-control" id="native_language" v-model="selectedNativeLanguage"
+                      :class="{invalidInput: validNativeLanguage}" @focus="onFocusSelectNativeLanguage">
+                      <option value="" disabled selected>Select Native Language</option>
+                      <option v-for="data in nativeLanguageList" :value="data.id">{{ data.name }}</option>
+                    </select>
+                  </div>
+                  <!-- Native Language -->
+                  
+                  <!-- Country Name In Native -->
+                  <div class="form-group">
+                    <label for="name_in_native" :class="{inputinvalidField: validNameInNative}">Name In Native: <span
+                        class="modal-required-input">*</span></label>
+                    <input type="text" id="name_in_native" class="form-control" placeholder="Deutsch"
+                      :class="{invalidInput: validNameInNative}" v-model="nameInNative" v-on:keyup="keyUpNameInNative">
+                  </div>
+                  <!-- Country Name In Native -->
         
                   <!-- Country Short Code -->
                   <div class="form-group">
@@ -206,6 +231,16 @@
                       v-on:keyup="keyUpCountryShortCode">
                   </div>
                   <!-- Country Short Code -->
+
+                  <!-- Country Dialing Code -->
+                  <div class="form-group">
+                    <label for="country_dialing_code" :class="{inputinvalidField: validDialingShortCode}">Dialing Code: <span
+                        class="modal-required-input">*</span></label>
+                    <input type="text" id="country_dialing_code" class="form-control" placeholder="+49"
+                      :class="{invalidInput: validDialingShortCode}" v-model="countryDialingCode" v-on:keyup="keyUpDialingShortCode">
+                  </div>
+                  <!-- Country Dialing Code -->
+
                 </form>
               </div>
               <div class="modal-footer">
@@ -233,6 +268,7 @@
                   class="alert alert-danger text-color-white" v-html="error"></p>
                 <!-- Error message -->
                 <form>
+
                   <!-- Country Name -->
                   <div class="form-group">
                     <label for="country_name" :class="{inputinvalidField: validCountryName}">Country Name: <span
@@ -241,7 +277,28 @@
                       :class="{invalidInput: validCountryName}" v-model="countryName" v-on:keyup="keyUpCountryName">
                   </div>
                   <!-- Country Name -->
-        
+                  
+                  <!-- Native Language -->
+                  <div class="form-group">
+                    <label for="native_language" :class="{inputinvalidField: validNativeLanguage}">Native Language: <span
+                        class="modal-required-input">*</span></label>
+                    <select class="form-control" id="native_language" v-model="selectedNativeLanguage"
+                      :class="{invalidInput: validNativeLanguage}" @focus="onFocusSelectNativeLanguage">
+                      <option value="" disabled selected>Select Native Language</option>
+                      <option v-for="data in nativeLanguageList" :value="data.id">{{ data.name }}</option>
+                    </select>
+                  </div>
+                  <!-- Native Language -->
+                  
+                  <!-- Country Name In Native -->
+                  <div class="form-group">
+                    <label for="name_in_native" :class="{inputinvalidField: validNameInNative}">Name In Native: <span
+                        class="modal-required-input">*</span></label>
+                    <input type="text" id="name_in_native" class="form-control" placeholder="Deutsch"
+                      :class="{invalidInput: validNameInNative}" v-model="nameInNative" v-on:keyup="keyUpNameInNative">
+                  </div>
+                  <!-- Country Name In Native -->
+
                   <!-- Country Short Code -->
                   <div class="form-group">
                     <label for="country_short_code" :class="{inputinvalidField: validCountryShortCode}">Short Code: <span
@@ -251,6 +308,15 @@
                       v-on:keyup="keyUpCountryShortCode">
                   </div>
                   <!-- Country Short Code -->
+
+                  <!-- Country Dialing Code -->
+                  <div class="form-group">
+                    <label for="country_dialing_code" :class="{inputinvalidField: validDialingShortCode}">Dialing Code: <span
+                        class="modal-required-input">*</span></label>
+                    <input type="text" id="country_dialing_code" class="form-control" placeholder="+49"
+                      :class="{invalidInput: validDialingShortCode}" v-model="countryDialingCode" v-on:keyup="keyUpDialingShortCode">
+                  </div>
+                  <!-- Country Dialing Code -->
                   
                   <!-- Country Status -->
                   <div class="form-group">

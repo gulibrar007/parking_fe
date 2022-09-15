@@ -16,6 +16,9 @@ const updateCountryEndPoint = "/update_country";
 // UPDATE COUNTRY STATUS ENDPOINT
 const updateCountryStatusEndPoint = "/update_country_status";
 
+// VIEW ALL ACTIVE LANGUAGES
+const viewAllActiveLanguagesEndPoint = "/get_active_languages";
+
 new Vue({
   el: '#countryVueApp',
   data: {
@@ -26,13 +29,21 @@ new Vue({
     countryName: '',
     validCountryShortCode: false,
     countryShortCode: '',
+    validDialingShortCode: false,
+    countryDialingCode: '',
+    validNativeLanguage: false,
+    selectedNativeLanguage: '',
+    validNameInNative: false,
+    nameInNative: '',
     countryStatus: '',
     countryId: '',
 
     countryList: [],
+    nativeLanguageList: []
   },
   mounted: function () { // WHEN VUE COMPONENT IS ADDED TO DOM, THIS HOOK IS CALLED
     this.viewAllCountries();
+    this.viewActiveLanguages();
   },
   methods: {
     /*---------- VIEW ALL COUNTRIES -------------------------*/
@@ -61,7 +72,7 @@ new Vue({
       if(res.result == 1) {
         this.countryList = res.data; // STORE THE COUNTRIES RETURNED IN ARRAY
       }
-
+      
       setTimeout(function(){
         // SHOW ADD COUNTRY BTN, TABLE AND HIDE SPINNER
         spinner.style.display = 'none';
@@ -82,6 +93,21 @@ new Vue({
     },
     /*---------- VIEW ALL COUNTRIES -------------------------*/
 
+    /*---------- VIEW ALL ACTIVE LANGUAGES ------------------*/
+    viewActiveLanguages: async function () {
+      // PARAMETERS TO VIEW ALL ACTIVE LANGUAGES
+      params = { }; 
+      // GET ALL ACTIVE LANGUAGES FROM API CALL
+      const result = await actionAPICall(baseUrl, viewAllActiveLanguagesEndPoint, params);
+      const res = await result.json();
+      
+      // IF ALL ACTIVE LANGUAGES ARE RETURNED SUCCESSFULLY
+      if(res.result == 1) {
+        this.nativeLanguageList = res.data; // STORE THE ACTIVE LANGUAGES RETURNED IN ARRAY
+      }
+    },
+    /*---------- VIEW ALL ACTIVE LANGUAGES ------------------*/
+
     /*---------- ADD COUNTRY --------------------------------*/
     // ON ADD BUTTON CLICK IN ADD COUNTRY MODAL
     onClickAddBtn: function () {
@@ -89,17 +115,35 @@ new Vue({
         this.validCountryName = true;
         this.invalidCountryDetails = false;
         this.emptyCountryName();
-      }  
+      } 
+      else if(this.selectedNativeLanguage === '') { // NO NATIVE LANGUAGE SELECTED
+        this.validNativeLanguage = true;
+        this.invalidCountryDetails = false;
+        this.emptyNativeLanguage();
+      }
+      else if(this.nameInNative === '') { // EMPTY NAME IN NATIVE
+        this.validNameInNative = true;
+        this.invalidCountryDetails = false;
+        this.emptyNameInNative();
+      }
       else if(this.countryShortCode === '') { // EMPTY COUNTRY SHORT CODE
         this.validCountryShortCode = true;
         this.invalidCountryDetails = false;
         this.emptyCountryShortCode();
       }
+      else if(this.countryDialingCode === '') { // EMPTY COUNTRY DIALING CODE
+        this.validDialingShortCode = true;
+        this.invalidCountryDetails = false;
+        this.emptyCountryDialingCode();
+      }
       else {
         // API PARAMETERS
         params = {
           "name": this.countryName,
-          "short_code": this.countryShortCode
+          "language_id": this.selectedNativeLanguage,
+          "name_native": this.nameInNative,
+          "short_code": this.countryShortCode,
+          "country_dialing_code": this.countryDialingCode
         }
 
         // ADD COUNTRY
@@ -130,7 +174,10 @@ new Vue({
 
         // RESET INPUT FIELDS
         this.countryName = '';
+        this.selectedNativeLanguage = '';
+        this.nameInNative = '';
         this.countryShortCode = '';
+        this.countryDialingCode = '';
       }
       else {
         // CLOSE MODAL
@@ -164,9 +211,13 @@ new Vue({
       if(res.result === 1) {
         // STORE SINGLE COUNTRY INFORMATION IN VARIABLE 
         const singleCountryInfo = res.data[0];
+        
         // ASSIGN COUNTRY INFORMATION TO RESPECTIVE INPUT FIELD
         this.countryName = singleCountryInfo.name;
+        this.selectedNativeLanguage = singleCountryInfo.language_id;
+        this.nameInNative = singleCountryInfo.name_native;
         this.countryShortCode = singleCountryInfo.short_code;
+        this.countryDialingCode = singleCountryInfo.country_dialing_code;
         this.countryStatus = singleCountryInfo.status;
       }
       else {
@@ -180,18 +231,36 @@ new Vue({
         this.validCountryName = true;
         this.invalidCountryDetails = false;
         this.emptyCountryName();
-      }  
+      } 
+      else if(this.selectedNativeLanguage === '') { // NO NATIVE LANGUAGE SELECTED
+        this.validNativeLanguage = true;
+        this.invalidCountryDetails = false;
+        this.emptyNativeLanguage();
+      }
+      else if(this.nameInNative === '') { // EMPTY NAME IN NATIVE
+        this.validNameInNative = true;
+        this.invalidCountryDetails = false;
+        this.emptyNameInNative();
+      }
       else if(this.countryShortCode === '') { // EMPTY COUNTRY SHORT CODE
         this.validCountryShortCode = true;
         this.invalidCountryDetails = false;
         this.emptyCountryShortCode();
       }
+      else if(this.countryDialingCode === '') { // EMPTY COUNTRY DIALING CODE
+        this.validDialingShortCode = true;
+        this.invalidCountryDetails = false;
+        this.emptyCountryDialingCode();
+      }
       else { 
         // API PARAMETERS
         params = {
           "name": this.countryName,
+          "language_id": this.selectedNativeLanguage,
+          "name_native": this.nameInNative,
           "country_id": this.countryId,
           "short_code": this.countryShortCode,
+          "country_dialing_code": this.countryDialingCode,
           "status": this.countryStatus
         }
 
@@ -222,8 +291,11 @@ new Vue({
 
         // RESET INPUT FIELDS
         this.countryName = '';
-        this.countryShortCode = '';
+        this.selectedNativeLanguage = '';
+        this.nameInNative = '';
         this.countryId = '';
+        this.countryShortCode = '';
+        this.countryDialingCode = '';
         this.countryStatus = statusObj.active;
       }
       else {
@@ -286,8 +358,17 @@ new Vue({
     emptyCountryName: function () {
       this.error = 'Country name is empty';
     },
+    emptyNativeLanguage: function () {
+      this.error = 'Select native language';
+    },
+    emptyNameInNative: function () {
+      this.error = 'Name in native is empty';
+    },
     emptyCountryShortCode: function () {
       this.error = 'Short code is empty';
+    },
+    emptyCountryDialingCode: function () {
+      this.error = 'Dialing code is empty';
     },
     /*---------- EMPTY/INVALID FIELD MESSAGE ---------------------*/
 
@@ -298,6 +379,18 @@ new Vue({
     },
     keyUpCountryShortCode: function () { // KEY IS PRESSED UP ON COUNTRY SHORT CODE INPUT
       this.validCountryShortCode = false;
+      this.invalidCountryDetails = true;
+    },
+    keyUpDialingShortCode: function () { // KEY IS PRESSED UP ON COUNTRY DIALING CODE INPUT
+      this.validDialingShortCode = false;
+      this.invalidCountryDetails = true;
+    },
+    onFocusSelectNativeLanguage: function () { // FOCUS ON NATIVE LANGUAGE 
+      this.validNativeLanguage = false;
+      this.invalidCountryDetails = true;
+    },
+    keyUpNameInNative: function () { // KEY IS PRESSED UP ON NAME IN NATIVE INPUT
+      this.validNameInNative = false;
       this.invalidCountryDetails = true;
     }
     /*----------- REMOVE HIGHLIGHTED ERRORS -----------------------*/
