@@ -31,6 +31,9 @@ Vue.component('sidebarcomponents',{
               <li><a><i class="fa fa-cog"></i> System Configuration <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu" style="display: none">
                   <li>
+                    <a href="language.html">Languages</a>
+                  </li>
+                  <li>
                     <a href="country.html">Country</a>
                   </li>
                   <li>
