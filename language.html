@@ -133,12 +133,12 @@
                               <ul class="dropdown-menu dropdown-actions-ul dropdown-item" role="menu">
                                 
                                 <li class="dropdown-list-item">
-                                  <button type="button" class="dropdown-button" data-toggle="modal" data-target="#updateCountry" @click="onClickOpenUpdateCountryModal" :data-country-id="data.id">
+                                  <button type="button" class="dropdown-button" data-toggle="modal" data-target="#updateLanguage" @click="onClickOpenUpdateLanguageModal" :data-language-id="data.id">
                                     Update
                                   </button>
                                 </li>
                                 <li class="dropdown-list-item">
-                                  <button type="button" class="dropdown-button active_inactive_status_button" @click="onClickUpdateStatus" :data-country-id="data.id" :data-current-status="data.status">
+                                  <button type="button" class="dropdown-button active_inactive_status_button" @click="onClickUpdateStatus" :data-language-id="data.id" :data-current-status="data.status">
                                   </button>
                                 </li>
                               </ul>
@@ -228,6 +228,69 @@
           </div>
         </div>
         <!-- add language -->
+        <!-- update language -->
+        <div class="modal fade" id="updateLanguage" role="dialog">
+          <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Language</h4>
+              </div>
+              <div class="modal-body">
+                <!-- Error message -->
+                <p style="text-align: center;" :class="{'displayNone':invalidLanguageDetails}" id="dangerAlert"
+                  class="alert alert-danger text-color-white" v-html="error"></p>
+                <!-- Error message -->
+                <form>
+        
+                  <!-- Language Name -->
+                  <div class="form-group">
+                    <label for="language_name" :class="{inputinvalidField: validLanguageName}">Language Name: <span
+                        class="modal-required-input">*</span></label>
+                    <input type="text" id="language_name" class="form-control" placeholder="German"
+                      :class="{invalidInput: validLanguageName}" v-model="languageName" v-on:keyup="keyUpLanguageName">
+                  </div>
+                  <!-- Language Name -->
+        
+                  <!-- Language Type -->
+                  <div class="form-group">
+                    <label class="control-label">Language Type: <span class="modal-required-input">*</span></label>
+                    <div>
+                      <div id="languageType" class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-default language-type-input" data-toggle-class="btn-primary"
+                          data-toggle-passive-class="btn-default" @click="onClicklanguageType">
+                          <input type="radio" name="languageType" value="RTL" id="rtl-language-type"> &nbsp; RTL &nbsp;
+                        </label>
+                        <label class="btn btn-default language-type-input" data-toggle-class="btn-primary"
+                          data-toggle-passive-class="btn-default" @click="onClicklanguageType">
+                          <input type="radio" name="languageType" value="LTR" id="ltr-language-type"> &nbsp; LTR &nbsp;
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Language Type -->
+
+                  <!-- Language Status -->
+                  <div class="form-group">
+                    <label for="language_status">Status:</label>
+                    <!-- Options are inserted when language table is loaded -->
+                    <select class="form-control select-status" v-model="languageStatus"></select>
+                  </div>
+                  <!-- Language Status -->
+        
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary update-language-modal-btn" @click="onClickUpdateBtn">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+        <!-- update language -->
         <!-- modals -->
       </div>
 

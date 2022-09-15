@@ -1,20 +1,17 @@
 // VIEW ALL LANGUAGES ENDPOINT
 const viewAllLanguagesEndPoint = "/get_all_languages";
 
-// VIEW ACTIVE LANGUAGES ENDPOINT
-const viewActiveCountries = "/get_active_countries";
-
 // VIEW SINGLE LANGUAGE
-const viewSingleCountryEndPoint= "/get_single_country";
+const viewSingleLanguageEndPoint= "/get_single_language";
 
 // ADD LANGUAGE ENDPOINT
 const addLanguageEndPoint = "/add_languages";
 
 // UPDATE LANGUAGE ENDPOINT
-const updateCountryEndPoint = "/update_country";
+const updateLanguageEndPoint = "/update_languages";
 
 // UPDATE LANGUAGE STATUS ENDPOINT
-const updateCountryStatusEndPoint = "/update_country_status";
+const updateLanguageStatusEndPoint = "/update_language_status";
 
 new Vue({
   el: '#languageVueApp',
@@ -26,8 +23,8 @@ new Vue({
     languageName: '',
     validLanguageType: false,
     languageType: '',
-    countryStatus: '',
-    countryId: '',
+    languageStatus: '',
+    languageId: '',
 
     languageList: [],
   },
@@ -160,28 +157,43 @@ new Vue({
     /*---------- ADD LANGUAGE --------------------------------*/
 
     /*---------- UPDATE LANGUAGE -----------------------------*/
-    // GET CURRENT VALUES OF COUNTRY
-    onClickOpenUpdateCountryModal: async function (e) {
-      // GET COUNTRY ID OF CLICKED ITEM
-      this.countryId = e.currentTarget.getAttribute('data-country-id');
-
+    // GET CURRENT VALUES OF LANGUAGE
+    onClickOpenUpdateLanguageModal: async function (e) {
+      // GET LANGUAGE ID OF CLICKED ITEM
+      this.languageId = e.currentTarget.getAttribute('data-language-id');
+      
       // API PARAMETERS
       params = {
-        "country_id": this.countryId
+        "languages_id": this.languageId
       };
 
-      // VIEW SINGLE COUNTRY INFORMATION
-      const result = await actionAPICall(baseUrl, viewSingleCountryEndPoint, params);
+      // VIEW SINGLE LANGUAGE INFORMATION
+      const result = await actionAPICall(baseUrl, viewSingleLanguageEndPoint, params);
       const res = await result.json();
 
-      // SINGLE COUNTRY DATA RETURNED SUCCESSFULLY 
+      // SINGLE LANGUAGE DATA RETURNED SUCCESSFULLY 
       if(res.result === 1) {
-        // STORE SINGLE COUNTRY INFORMATION IN VARIABLE 
-        const singleCountryInfo = res.data[0];
-        // ASSIGN COUNTRY INFORMATION TO RESPECTIVE INPUT FIELD
-        this.languageName = singleCountryInfo.name;
-        this.languageType = singleCountryInfo.short_code;
-        this.countryStatus = singleCountryInfo.status;
+        // STORE SINGLE LANGUAGE INFORMATION IN VARIABLE 
+        const singleLanguageInfo = res.data[0];
+        // ASSIGN LANGUAGE INFORMATION TO RESPECTIVE INPUT FIELD
+        this.languageName = singleLanguageInfo.name;
+
+        this.languageStatus = singleLanguageInfo.status;
+
+        let choosenLanguageType;
+        
+        if(singleLanguageInfo.is_ltr === 0 || singleLanguageInfo.is_rtl === 1) {
+          this.languageType = 'RTL';
+          choosenLanguageType = document.querySelector('#rtl-language-type');
+          choosenLanguageType.parentElement.click();
+        }
+        else if(singleLanguageInfo.is_ltr === 1 || singleLanguageInfo.is_rtl === 0) {
+          this.languageType = 'LTR';
+          choosenLanguageType = document.querySelector('#ltr-language-type');
+          choosenLanguageType.parentElement.click();
+
+        }
+        
       }
       else {
         toastr.error('There was an error');
@@ -190,62 +202,75 @@ new Vue({
     },
     // ON UPDATE BUTTON CLICK IN UPDATE LANGUAGE MODAL
     onClickUpdateBtn: function () {
-      if(this.languageName === '') { // EMPTY COUNTRY NAME
+      if(this.languageName === '') { // EMPTY LANGUAGE NAME
         this.validLanguageName = true;
         this.invalidLanguageDetails = false;
         this.emptyLanguageName();
       }  
-      else if(this.languageType === '') { // EMPTY COUNTRY SHORT CODE
+      else if(this.languageType === '') { // EMPTY LANGUAGE SHORT CODE
         this.validLanguageType = true;
         this.invalidLanguageDetails = false;
         this.emptyLanguageType();
       }
       else { 
+        let rtl, ltr;
+        if(this.languageType === 'RTL') {
+          rtl = 1;
+          ltr = 0;
+        }
+        else if(this.languageType === 'LTR') {
+          rtl = 0;
+          ltr = 1;
+        }
         // API PARAMETERS
         params = {
           "name": this.languageName,
-          "country_id": this.countryId,
-          "short_code": this.languageType,
-          "status": this.countryStatus
+          "languages_id": parseInt(this.languageId),
+          "is_rtl": rtl,
+          "is_ltr": ltr,
+          "status": this.languageStatus
         }
 
-        // UPDATE COUNTRY
-        this.updateCountry(params);
+        // UPDATE LANGUAGE
+        this.updateLanguage(params);
       }
     },
-    updateCountry: async function (params) {
-      const addCountryModalBtn = document.querySelector('.update-country-modal-btn');
+    updateLanguage: async function (params) {
+      const addLanguageModalBtn = document.querySelector('.update-language-modal-btn');
       
-      // DISABLE ADD COUNTRY BUTTON
-      addCountryModalBtn.disabled = true;
+      // DISABLE ADD LANGUAGE BUTTON
+      addLanguageModalBtn.disabled = true;
 
-      // UPDATE COUNTRY ON SERVER
-      const result = await actionAPICall(baseUrl, updateCountryEndPoint, params);
+      // UPDATE LANGUAGE ON SERVER
+      const result = await actionAPICall(baseUrl, updateLanguageEndPoint, params);
       const res = await result.json();
       
-      // UPDATE COUNTRY SUCCESSFULLY
+      // UPDATE LANGUAGE SUCCESSFULLY
       if(res.result === 'success') {
         // CLOSE MODAL
-        closeModal('updateCountry');
+        closeModal('updateLanguage');
 
-        // ENABLE ADD COUNTRY BUTTON
-        addCountryModalBtn.disabled = false;
+        // ENABLE ADD LANGUAGE BUTTON
+        addLanguageModalBtn.disabled = false;
         
-        toastr.success('Country updated successfully');
-        this.viewAllLanguages(); // RELOAD ALL COUNTRIES VIEW
+        toastr.success('Language updated successfully');
+        this.viewAllLanguages(); // RELOAD ALL LANGUAGES VIEW
 
         // RESET INPUT FIELDS
         this.languageName = '';
         this.languageType = '';
-        this.countryId = '';
-        this.countryStatus = statusObj.active;
+        this.languageId = '';
+        this.languageStatus = statusObj.active;
+        document.querySelectorAll('.language-type-input').forEach(input => {
+          input.classList.remove('active');
+        })
       }
       else {
         // CLOSE MODAL
-        closeModal('updateCountry'); 
+        closeModal('updateLanguage'); 
 
-        // ENABLE ADD COUNTRY BUTTON
-        addCountryModalBtn.disabled = false;
+        // ENABLE ADD LANGUAGE BUTTON
+        addLanguageModalBtn.disabled = false;
 
         // ERROR MESSAGE
         toastr.error('There was an error!');
@@ -256,33 +281,33 @@ new Vue({
     /*---------- UPDATE LANGUAGE STATUS ----------------------*/
     onClickUpdateStatus: function (e) {
       
-      // GET COUNTRY ID AND STATUS
-      const countryId = e.currentTarget.getAttribute('data-country-id');
-      const currentCountryStatus = e.currentTarget.getAttribute('data-current-status');
+      // GET LANGUAGE ID AND STATUS
+      const languageId = e.currentTarget.getAttribute('data-language-id');
+      const currentLanguageStatus = e.currentTarget.getAttribute('data-current-status');
       // VARIABLE TO STORE NEW UPDATED STATUS
       let newStatus;
 
       // CURRENT STATUS IS ACTIVE
-      if(currentCountryStatus === statusObj.active) {
+      if(currentLanguageStatus === statusObj.active) {
         newStatus = statusObj.inactive; // MAKE THE NEW STATUS INACTIVE
       }
-      // CURRENT STATIS IS INACTIVE
-      else if(currentCountryStatus === statusObj.inactive) {
+      // CURRENT STATUS IS INACTIVE
+      else if(currentLanguageStatus === statusObj.inactive) {
         newStatus = statusObj.active; // MAKE THE NEW STATUS ACTIVE
       }
 
       // UPDATE STATUS
       params = {
         "status": newStatus,
-        "country_id": countryId
+        "languages_id": languageId
       }
       
-      this.updateCountryStatus(params);
+      this.updateLanguageStatus(params);
     },
     // UPDATE LANGUAGE STATUS
-    updateCountryStatus: async function (params) {
-      // UPDATE COUNTRY STATUS ON SERVER
-      const result = await actionAPICall(baseUrl, updateCountryStatusEndPoint, params);
+    updateLanguageStatus: async function (params) {
+      // UPDATE LANGUAGE STATUS ON SERVER
+      const result = await actionAPICall(baseUrl, updateLanguageStatusEndPoint, params);
       const res = await result.json();
       
       // STATUS UPDATED SUCCESSFULLY
